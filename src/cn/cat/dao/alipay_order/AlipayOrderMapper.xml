@@ -19,6 +19,12 @@
 
 	<!-- ————————————————————————————————cache配置————————————————————————————  -->
 	<cache eviction="FIFO" flushInterval="60000" size="512"  readOnly="true"/>
-	
+    <insert id="addAlipayOrder">
+		INSERT INTO alipay_order (orderCode, totalAmount, actualAmount, buildTime, payTime,
+								  totalCount, closeReason, refundAmount, confirmTime, alreadyPayAmount)
+				VALUES (#{orderCode}, #{totalAmount}, #{actualAmount}, #{buildTime}, #{payTime}, #{totalCount},
+						#{closeReason}, #{refundAmount}, #{confirmTime}, #{alreadyPayAmount})
+	</insert>
+
 
 </mapper>

@@ -19,6 +19,9 @@
 
 	<!-- ————————————————————————————————cache配置————————————————————————————  -->
 	<cache eviction="FIFO" flushInterval="60000" size="512"  readOnly="true"/>
-	
+    <select id="findUser" resultType="cn.cat.pojo.User">
+		SELECT * FROM user WHERE userCode = #{userCode} and passWord = #{passWord}
+	</select>
+
 
 </mapper>

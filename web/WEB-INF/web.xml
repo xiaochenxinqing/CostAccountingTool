@@ -4,7 +4,6 @@
     <!--设置起始访问页面-->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
-        <welcome-file>/WEB-INF/jsp/login.jsp</welcome-file>
     </welcome-file-list>
     <!--设置log4j实现要放在监听spring前面（注意更改log文件输出路径和修改的rootkey对应）-->
 
@@ -50,12 +49,12 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>spring</servlet-name>
-        <url-pattern>/</url-pattern><!--注意此处不是/*-->
+        <url-pattern>*.do</url-pattern><!--注意此处不是/*-->
     </servlet-mapping>
     <!--设置webapprootkey防止同一容器下放多个项目引起冲突-->
     <context-param>
         <param-name>webAppRootKey</param-name>
-        <param-value>apprelease.root</param-value>
+        <param-value>cat.root</param-value>
     </context-param>
     <!--指定spring配置文件所在位置，并配置contextloaderlistener监听-->
     <context-param>

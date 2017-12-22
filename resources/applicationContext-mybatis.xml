@@ -13,7 +13,7 @@
             http://www.springframework.org/schema/context/spring-context.xsd">
     <!--配置service，将加注了@service注解的实现类注册为service组件-->
 
-    <context:component-scan base-package="cn.apprelease.service"/>
+    <context:component-scan base-package="cn.cat.service"/>
 
 
     <!-- 1读取数据库配置文件 -->
@@ -51,7 +51,7 @@
 
     <!--配置dao，利用MapperScannerConfigurer自动注册dao组件-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="cn.apprelease.dao" />
+        <property name="basePackage" value="cn.cat.dao" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
@@ -74,7 +74,7 @@
     </tx:advice>
     <!-- AOP 事务处理    -->
     <aop:config  proxy-target-class="true">
-        <aop:pointcut expression="execution(* cn.apprelease.service..*.*(..))" id="transService"/>
+        <aop:pointcut expression="execution(* cn.cat.service..*.*(..))" id="transService"/>
         <aop:advisor pointcut-ref="transService" advice-ref="txAdvice" />
     </aop:config>
 

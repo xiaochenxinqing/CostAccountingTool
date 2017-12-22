@@ -19,6 +19,12 @@
 
 	<!-- ————————————————————————————————cache配置————————————————————————————  -->
 	<cache eviction="FIFO" flushInterval="60000" size="512"  readOnly="true"/>
-	
+    <insert id="addLocalOrder">
+		INSERT  INTO  local_order(accountingCode, businessCode, orderCode, goodsName, occuredTime,
+								  consumerAccount, revenueAmount, disbursementAmount, accountBalance)
+		VALUES 	(#{accountingCode}, #{businessCode}, #{orderCode}, #{goodsName}, #{occuredTime},
+		#{consumerAccount}, #{revenueAmount}, #{disbursementAmount}, #{accountBalance})
+	</insert>
+
 
 </mapper>

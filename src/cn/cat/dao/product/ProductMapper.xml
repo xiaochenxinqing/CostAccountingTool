@@ -19,6 +19,9 @@
 
 	<!-- ————————————————————————————————cache配置————————————————————————————  -->
 	<cache eviction="FIFO" flushInterval="60000" size="512"  readOnly="true"/>
-	
+	<insert id="addProduct">
+		REPLACE   INTO  product (productCode,`costPrice`) VALUES (#{productCode},#{CostPrice})
+	</insert>
+
 
 </mapper>

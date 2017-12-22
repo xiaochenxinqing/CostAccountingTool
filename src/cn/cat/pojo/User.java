@@ -1,6 +1,6 @@
 package cn.cat.pojo;
 
-import java.util.Date;
+
 
 /**
  * 前台用户

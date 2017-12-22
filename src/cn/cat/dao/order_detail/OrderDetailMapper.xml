@@ -19,6 +19,10 @@
 
 	<!-- ————————————————————————————————cache配置————————————————————————————  -->
 	<cache eviction="FIFO" flushInterval="60000" size="512"  readOnly="true"/>
-	
+    <insert id="addOrderDetail">
+		REPLACE  INTO  order_detail (orderCode, title, price, quantity, productCode, orderStatus) VALUES
+			(#{orderCode}, #{title}, #{price}, #{quantity}, #{productCode}, #{orderStatus})
+	</insert>
+
 
 </mapper>

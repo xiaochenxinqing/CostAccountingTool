@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_webuploader.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Mar 2016 12:29:41 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>订单子条目上传</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="css/demo/webuploader-demo.min.css">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <style>
+
+
+        .upload {
+            position: relative;
+            width: 400px;
+            min-height: 445px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            padding-bottom: 20px;
+            background: #fff;
+            -webkit-animation: fadeup .5s .5s ease both;
+            animation: fadeup .5s .5s ease both;
+            -webkit-transform: translateY(20px);
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .upload .upload-files header {
+            background: #4db6ac;
+            text-align: center;
+        }
+
+        .upload .upload-files header p {
+            color: #fff;
+            font-size: 40px;
+            margin: 0;
+            padding: 50px 0;
+        }
+
+        .upload .upload-files header p i {
+            -webkit-transform: translateY(20px);
+            transform: translateY(20px);
+            opacity: 0;
+            font-size: 30px;
+            -webkit-animation: fadeup .5s 1s ease both;
+            animation: fadeup .5s 1s ease both;
+        }
+
+        .upload .upload-files header p .up {
+            font-weight: bold;
+            -webkit-transform: translateX(-20px);
+            transform: translateX(-20px);
+            display: inline-block;
+            opacity: 0;
+            -webkit-animation: faderight .5s 1.5s ease both;
+            animation: faderight .5s 1.5s ease both;
+        }
+
+        .upload .upload-files header p .load {
+            display: inline-block;
+            font-weight: 100;
+            margin-left: -8px;
+            -webkit-transform: translateX(-20px);
+            transform: translateX(-20px);
+            opacity: 0;
+            -webkit-animation: faderight 1s 1.5s ease both;
+            animation: faderight 1s 1.5s ease both;
+        }
+
+        .upload .upload-files .body {
+            text-align: center;
+            padding: 50px 0;
+            padding-bottom: 30px;
+        }
+
+        .upload .upload-files .body.hidden {
+            display: none;
+        }
+
+        .upload .upload-files .body input {
+            visibility: hidden;
+        }
+
+        .upload .upload-files .body i {
+            font-size: 65px;
+            color: lightgray;
+        }
+
+        .upload .upload-files .body p {
+            font-size: 14px;
+            padding-top: 15px;
+            line-height: 1.4;
+        }
+
+        .upload .upload-files .body p b,
+        .upload .upload-files .body p a {
+            color: #4db6ac;
+        }
+
+        .upload .upload-files .body.active {
+            border: dashed 2px #4db6ac;
+        }
+
+        .upload .upload-files .body.active i {
+            box-shadow: 0 0 0 -3px #fff, 0 0 0 lightgray, 0 0 0 -3px #fff, 0 0 0 lightgray;
+            -webkit-animation: file .5s ease both;
+            animation: file .5s ease both;
+        }
+
+        @-webkit-keyframes file {
+            50% {
+                box-shadow: -8px 8px 0 -3px #fff, -8px 8px 0 lightgray, -8px 8px 0 -3px #fff, -8px 8px 0 lightgray;
+            }
+            75%,
+            100% {
+                box-shadow: -8px 8px 0 -3px #fff, -8px 8px 0 lightgray, -16px 16px 0 -3px #fff, -16px 16px 0 lightgray;
+            }
+        }
+
+        @keyframes file {
+            50% {
+                box-shadow: -8px 8px 0 -3px #fff, -8px 8px 0 lightgray, -8px 8px 0 -3px #fff, -8px 8px 0 lightgray;
+            }
+            75%,
+            100% {
+                box-shadow: -8px 8px 0 -3px #fff, -8px 8px 0 lightgray, -16px 16px 0 -3px #fff, -16px 16px 0 lightgray;
+            }
+        }
+
+        .upload .upload-files .body.active .pointer-none {
+            pointer-events: none;
+        }
+
+        .upload .upload-files footer {
+            width: 100%;
+            margin: 0 auto;
+            height: 0;
+        }
+
+        .upload .upload-files footer .divider {
+            margin: 0 auto;
+            width: 0;
+            border-top: solid 4px #46aba1;
+            text-align: center;
+            overflow: hidden;
+            -webkit-transition: width .5s ease;
+            transition: width .5s ease;
+        }
+
+        .upload .upload-files footer .divider span {
+            display: inline-block;
+            -webkit-transform: translateY(-25px);
+            transform: translateY(-25px);
+            font-size: 12px;
+            padding-top: 8px;
+        }
+
+        .upload .upload-files footer.hasFiles {
+            height: auto;
+        }
+
+        .upload .upload-files footer.hasFiles .divider {
+            width: 100%;
+        }
+
+        .upload .upload-files footer.hasFiles .divider span {
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+            -webkit-transition: -webkit-transform .5s .5s ease;
+            transition: -webkit-transform .5s .5s ease;
+            transition: transform .5s .5s ease;
+            transition: transform .5s .5s ease, -webkit-transform .5s .5s ease;
+        }
+
+        .upload .upload-files footer .list-files {
+            width: 320px;
+            margin: 0 auto;
+            margin-top: 15px;
+            padding-left: 5px;
+            text-align: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: 210px;
+        }
+
+        .upload .upload-files footer .list-files::-webkit-scrollbar-track {
+            background-color: rgba(211, 211, 211, 0.25);
+        }
+
+        .upload .upload-files footer .list-files::-webkit-scrollbar {
+            width: 4px;
+            background-color: rgba(211, 211, 211, 0.25);
+        }
+
+        .upload .upload-files footer .list-files::-webkit-scrollbar-thumb {
+            background-color: rgba(77, 182, 172, 0.5);
+        }
+
+        .upload .upload-files footer .list-files .file {
+            width: 300px;
+            min-height: 50px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            opacity: 0;
+            -webkit-animation: fade .35s ease both;
+            animation: fade .35s ease both;
+        }
+
+        .upload .upload-files footer .list-files .file .name {
+            font-size: 12px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 80px;
+            text-align: left;
+        }
+
+        .upload .upload-files footer .list-files .file .progress {
+            width: 175px;
+            height: 5px;
+            border: solid 1px lightgray;
+            border-radius: 2px;
+            background: -webkit-linear-gradient(right, rgba(77, 182, 172, 0.2), rgba(77, 182, 172, 0.8)) no-repeat;
+            background: linear-gradient(to left, rgba(77, 182, 172, 0.2), rgba(77, 182, 172, 0.8)) no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .upload .upload-files footer .list-files .file .progress.active {
+            -webkit-animation: progress 30s linear;
+            animation: progress 30s linear;
+        }
+
+        @-webkit-keyframes progress {
+            from {
+                background-size: 0 100%;
+            }
+            to {
+                background-size: 100% 100%;
+            }
+        }
+
+        @keyframes progress {
+            from {
+                background-size: 0 100%;
+            }
+            to {
+                background-size: 100% 100%;
+            }
+        }
+
+        .upload .upload-files footer .list-files .file .done {
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            background: #4db6ac;
+            border-radius: 50%;
+            margin-left: -10px;
+            -webkit-transform: scale(0);
+            transform: scale(0);
+            position: relative;
+        }
+
+        .upload .upload-files footer .list-files .file .done:before {
+            content: "View";
+            position: absolute;
+            top: 0;
+            left: -5px;
+            font-size: 24px;
+            opacity: 0;
+        }
+
+        .upload .upload-files footer .list-files .file .done:hover:before {
+            -webkit-transition: all .25s ease;
+            transition: all .25s ease;
+            top: -30px;
+            opacity: 1;
+        }
+
+        .upload .upload-files footer .list-files .file .done.anim {
+            -webkit-animation: done1 .5s ease forwards;
+            animation: done1 .5s ease forwards;
+        }
+
+        .upload .upload-files footer .list-files .file .done.anim #path {
+            -webkit-animation: done2 2.5s .5s ease forwards;
+            animation: done2 2.5s .5s ease forwards;
+        }
+
+        .upload .upload-files footer .list-files .file .done #path {
+            stroke-dashoffset: 7387.59423828125;
+            stroke-dasharray: 7387.59423828125 7387.59423828125;
+            stroke: #fff;
+            fill: transparent;
+            stroke-width: 50px;
+        }
+
+        @-webkit-keyframes done2 {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes done2 {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @-webkit-keyframes done1 {
+            50% {
+                -webkit-transform: scale(0.5);
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            80% {
+                -webkit-transform: scale(0.25);
+                transform: scale(0.25);
+                opacity: 1;
+            }
+            100% {
+                -webkit-transform: scale(0.5);
+                transform: scale(0.5);
+                opacity: 1;
+            }
+        }
+
+        @keyframes done1 {
+            50% {
+                -webkit-transform: scale(0.5);
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            80% {
+                -webkit-transform: scale(0.25);
+                transform: scale(0.25);
+                opacity: 1;
+            }
+            100% {
+                -webkit-transform: scale(0.5);
+                transform: scale(0.5);
+                opacity: 1;
+            }
+        }
+
+        .upload .upload-files footer .importar {
+            outline: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 20px;
+            border: solid 1px #4db6ac;
+            color: #4db6ac;
+            background: transparent;
+            padding: 8px 15px;
+            font-size: 12px;
+            border-radius: 4px;
+            font-family: Roboto;
+            line-height: 1;
+            cursor: pointer;
+            -webkit-transform: translateY(15px);
+            transform: translateY(15px);
+            opacity: 0;
+            margin-left: calc(30% - 40px);
+        }
+
+        .upload .upload-files footer .importar.active {
+            -webkit-transition: opacity .5s 1.5s ease, -webkit-transform .5s 1.5s ease;
+            transition: opacity .5s 1.5s ease, -webkit-transform .5s 1.5s ease;
+            transition: transform .5s 1.5s ease, opacity .5s 1.5s ease;
+            transition: transform .5s 1.5s ease, opacity .5s 1.5s ease, -webkit-transform .5s 1.5s ease;
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .upload .upload-files footer .importar:hover {
+            background: #4db6ac;
+            color: #fff;
+        }
+
+        @-webkit-keyframes fadeup {
+            to {
+                -webkit-transform: translateY(0);
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeup {
+            to {
+                -webkit-transform: translateY(0);
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes faderight {
+            to {
+                -webkit-transform: translateX(0);
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes faderight {
+            to {
+                -webkit-transform: translateX(0);
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes fade {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fade {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .upload {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    </style>
+
+
+</head>
+
+<body class="gray-bg">
+
+    <div class="ibox " style="filter:alpha(opacity=50);background:#ffffff;width:400px;z-index:10;position: fixed;top:300px;left: 35%" id="progressArea" hidden>
+        <div class="ibox-title">
+            <h5>导入中....请稍后 </h5>（数据过多时会需要一些时间，请耐心等待勿进行其他操作
+        </div>
+        <div class="ibox-content">
+            <div class="spiner-example">
+                <div class="sk-spinner sk-spinner-rotating-plane"></div>
+            </div>
+        </div>
+    </div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-content">
+                    <div class="alert alert-warning">
+                        注意事项：为保证数据准确性，请确保上传文件格式为Excel文件格式（xls或xlsx）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="upload" style="margin: auto">
+            <div class="upload-files">
+                <header>
+                    <p>
+                        <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                        <span class="up">订单详情(子条目)</span>
+                        <span class="load">上传</span>
+                    </p>
+                </header>
+                <form action="" id="upform">
+                    <div class="body" id="drop">
+                        <i class="fa fa-file-text-o pointer-none" aria-hidden="true"></i>
+                        <p class="pointer-none"><b>拖放文件到这里</b> <br/> 或 <a href="javascript:;" id="triggerFile">点击浏览</a>（按Ctrl选择多个）
+                        </p>
+                        <input type="file" name="attachs" multiple="multiple"/>
+                    </div>
+                </form>
+                <footer>
+                    <div class="divider">
+                        <span><AR>文件列表</AR></span>
+                    </div>
+                    <div class="list-files">
+                        <!--   template   -->
+                    </div>
+                    <button class="importar" id="clear">清空文件</button>
+                    <button id="submitbutton" type="button"
+                            style="background-color: #4db6ac ;position: absolute;right: 40px;bottom:20px;border-color:#4db6ac "
+                            class="btn btn-w-m btn-success">提交
+                    </button>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min14ed.js?v=3.3.6"></script>
+<script type="text/javascript" src="js/content.mine209.js?v=1.0.0"></script>
+<script type="text/javascript">
+    //DOM
+    const $ = document.querySelector.bind(document);
+
+    //APP
+    let App = {};
+    App.init = (function() {
+        //Init
+        function handleFileSelect(evt) {
+            const files = evt.target.files; // FileList object
+
+            //files template
+            let template = `${Object.keys(files)
+                .map(
+                    file => `<div class="file file--${file}">
+     <div class="name"><span>${files[file].name}</span></div>
+     <div class="progress active"></div>
+     <div class="done">
+	<a href="" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 1000 1000">
+		<g><path id="path" d="M500,10C229.4,10,10,229.4,10,500c0,270.6,219.4,490,490,490c270.6,0,490-219.4,490-490C990,229.4,770.6,10,500,10z M500,967.7C241.7,967.7,32.3,758.3,32.3,500C32.3,241.7,241.7,32.3,500,32.3c258.3,0,467.7,209.4,467.7,467.7C967.7,758.3,758.3,967.7,500,967.7z M748.4,325L448,623.1L301.6,477.9c-4.4-4.3-11.4-4.3-15.8,0c-4.4,4.3-4.4,11.3,0,15.6l151.2,150c0.5,1.3,1.4,2.6,2.5,3.7c4.4,4.3,11.4,4.3,15.8,0l308.9-306.5c4.4-4.3,4.4-11.3,0-15.6C759.8,320.7,752.7,320.7,748.4,325z"</g>
+		</svg>
+						</a>
+     </div>
+    </div>`
+                )
+                .join("")}`;
+
+            $("#drop").classList.add("hidden");
+            $("footer").classList.add("hasFiles");
+            $(".importar").classList.add("active");
+            setTimeout(() => {
+                $(".list-files").innerHTML = template;
+        }, 1000);
+
+            Object.keys(files).forEach(file => {
+                let load = 2000 + file * 2000; // fake load
+            setTimeout(() => {
+                $(`.file--${file}`).querySelector(".progress").classList.remove("active");
+            $(`.file--${file}`).querySelector(".done").classList.add("anim");
+        }, load);
+        });
+        }
+
+        // trigger input
+        $("#triggerFile").addEventListener("click", evt => {
+            evt.preventDefault();
+        $("input[type=file]").click();
+    });
+
+        // drop events
+        $("#drop").ondragleave = evt => {
+            $("#drop").classList.remove("active");
+            evt.preventDefault();
+        };
+        $("#drop").ondragover = $("#drop").ondragenter = evt => {
+            $("#drop").classList.add("active");
+            evt.preventDefault();
+        };
+        $("#drop").ondrop = evt => {
+            $("input[type=file]").files = evt.dataTransfer.files;
+            $("footer").classList.add("hasFiles");
+            $("#drop").classList.remove("active");
+            evt.preventDefault();
+        };
+
+        //upload more
+        $(".importar").addEventListener("click", () => {
+            $(".list-files").innerHTML = "";
+        $("footer").classList.remove("hasFiles");
+        $(".importar").classList.remove("active");
+        setTimeout(() => {
+            $("#drop").classList.remove("hidden");
+    }, 500);
+    });
+
+        // input change
+        $("input[type=file]").addEventListener("change", handleFileSelect);
+    })();
+</script>
+
+
+<script type="text/javascript">
+
+    jQuery(function () {
+        jQuery("#submitbutton").hide();
+        jQuery("#clear").click(function () {
+            jQuery("#upform").find("input").val('')
+            jQuery("#submitbutton").hide();
+        });
+        jQuery("#upform").find("input").change(function () {
+            jQuery("#submitbutton").show();
+        });
+        jQuery("#submitbutton").click(function () {
+            if (jQuery("#upform input").val() == '' || jQuery("#upform input").val() == null) {
+                alert("您尚未选择任何文件!")
+                return;
+            }
+            var data = new FormData(jQuery("body #upform")[0]);
+            var rootpath = getRootPath();
+            var url = rootpath + "/product/uploadProduct.do";
+
+            jQuery.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                dataType: "json",
+                //async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    jQuery("#progressArea").show();
+                },
+                success: function (data) {
+                    alert(JSON.stringify(data.status));
+                    jQuery("#progressArea").hide();
+                    if(data.status==="导入数据成功"){
+                        location.reload();
+                    }
+                },
+
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                   /* alert("XMLHttpRequest.status：" + XMLHttpRequest.status);
+                    alert("XMLHttpRequest.readyState：" + XMLHttpRequest.readyState);
+                    alert("textStatus：" + textStatus);*/
+                    alert("未知错误！");
+                    jQuery("#progressArea").hide();
+                }
+
+            });
+        });
+
+
+
+        function getRootPath() {
+            //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+            var curWwwPath = window.document.location.href;
+            //获取主机地址之后的目录，如： /uimcardprj/share/meun.jsp
+            var pathName = window.document.location.pathname;
+            var pos = curWwwPath.indexOf(pathName);
+            //获取主机地址，如： http://localhost:8083
+            var localhostPaht = curWwwPath.substring(0, pos);
+            //获取带"/"的项目名，如：/uimcardprj
+            var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+            return (localhostPaht + projectName);
+        }
+
+    })
+
+</script>
+
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_webuploader.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Mar 2016 12:29:43 GMT -->
+</html>
