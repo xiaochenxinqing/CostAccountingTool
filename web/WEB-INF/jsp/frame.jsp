@@ -97,16 +97,16 @@ Time: 14:11
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/product_webuploader.html">商品成本上传</a>
+                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/product_webuploader.html">价格库上传</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="">本地订单上传</a>
+                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/tmall_order_webuploader.html">天猫订单上传</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="">支付宝订单上传</a>
+                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/alipay_order_webuploader.html">支付宝订单上传</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="">订单子条目上传</a>
+                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/order_detail_webuploader.html">订单明细上传</a>
                         </li>
 
                     </ul>
@@ -120,10 +120,10 @@ Time: 14:11
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="">实际成本计算</a>
+                            <a class="J_menuItem" href="">天猫订单成本计算</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="">订单成本计算</a>
+                            <a class="J_menuItem" href="">支付宝订单成本计算</a>
                         </li>
 
 

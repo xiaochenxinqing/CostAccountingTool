@@ -43,7 +43,7 @@ public class ProductController {
     @RequestMapping(value = "/uploadProduct.do", method = RequestMethod.POST)
     @ResponseBody
     public String uploadFile(HttpServletRequest request, HttpSession session, @RequestParam(value = "attachs", required = false)
-            MultipartFile[] attachs)  {
+            MultipartFile[] attachs) {
         System.out.println("文件的个数为:" + attachs.length);
 
         String reInfo = null;//用来保存返回信息
@@ -56,13 +56,14 @@ public class ProductController {
                     String oldFileName = attach.getOriginalFilename();//获得原文件名
                     String prefix = FilenameUtils.getExtension(oldFileName);//获得原文件名后缀
                     /*判断文件格式是否正确*/
-                    if (prefix.equalsIgnoreCase("xlsx") || prefix.equalsIgnoreCase("xls")) {
+                    if (prefix.equalsIgnoreCase("xlsx") || prefix.equalsIgnoreCase("xls")
+                            || prefix.equalsIgnoreCase("csv")) {
                         InputStream is = attach.getInputStream();//获取is对象
                         //POIFSFileSystem fs = new POIFSFileSystem(is);
                         XSSFWorkbook wb = new XSSFWorkbook(is);
                         XSSFSheet sheetMain = wb.getSheetAt(0);//获取sheet对象
                         is.close();
-                        int rowLens = sheetMain.getLastRowNum();//获取行的总数
+                        int rowLens = sheetMain.getLastRowNum() + 1;//获取行的总数（获取的是下标所以要+1）
                         XSSFRow row = null;
 
                         XSSFCell cell0 = null;
@@ -101,7 +102,7 @@ public class ProductController {
                         }
                         reInfo = "导入数据成功";
                     } else {
-                        reInfo = "部分文件上传文件格式不正确，请更改后重新上传";
+                        reInfo = "部分文件上传文件格式不正确，已弃用，请更改后重新上传";
                     }
 
 

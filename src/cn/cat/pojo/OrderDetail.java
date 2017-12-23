@@ -5,7 +5,6 @@ public class OrderDetail {
 
   private Integer id;//订单详情唯一标识
   private String orderCode;//订单编号
-  private String title;//标题
   private Double price;//价格
   private Integer quantity;//购买数量
   private String productCode;//外部系统编号（货号）
@@ -25,14 +24,6 @@ public class OrderDetail {
 
   public void setOrderCode(String orderCode) {
     this.orderCode = orderCode;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
   }
 
   public Double getPrice() {

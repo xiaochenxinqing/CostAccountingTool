@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cat.dao.tmall_order.TmallOrderMapper">
+
+    <!-- ————————————————————————————————resultMap区————————————————————————————  -->
+
+    <!--——————————————————————————————————增 ———————————————————————————————————————————————— -->
+
+    <!--——————————————————————————————————删 ———————————————————————————————————————————————— -->
+
+    <!--——————————————————————————————————改 ———————————————————————————————————————————————— -->
+
+
+    <!--——————————————————————————————————查 ———————————————————————————————————————————————— -->
+
+
+    <!-- ————————————————————————————————cache配置————————————————————————————  -->
+    <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+    <insert id="addTmallOrder">
+        REPLACE INTO tmall_order (orderCode, totalAmount, actualAmount, buildTime, payTime,
+                                  totalCount, closeReason, refundAmount, confirmTime, alreadyPayAmount)
+        VALUES (#{orderCode}, #{totalAmount}, #{actualAmount}, #{buildTime}, #{payTime}, #{totalCount},
+                #{closeReason}, #{refundAmount}, #{confirmTime}, #{alreadyPayAmount})
+    </insert>
+
+
+</mapper>

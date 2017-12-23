@@ -1,19 +1,20 @@
 package cn.cat.pojo;
 
+
 import java.util.Date;
 
 public class AlipayOrder {
-  private Integer id;//订单唯一标识(自动生成)
-  private String orderCode;//订单编号
-  private Double totalAmount;//总金额
-  private Double actualAmount;//实际金额
-  private Date buildTime;//订单创建时间
-  private Date payTime;//订单付款时间
-  private Integer totalCount;//宝贝总数量
-  private String closeReason;//订单关闭原因
-  private String refundAmount;//退款原因
-  private Date confirmTime;//确认收货时间
-  private Double alreadyPayAmount;//已打款商家金额
+
+  private Integer id;//订单唯一编号
+  private String accountingCode;//账务流水号
+  private String businessCode;//业务流水号
+  private String orderCode;//商户订单号
+  private String goodsName;//商品名称
+  private Date occuredTime;//发生时间
+  private String consumerAccount;//对方账号
+  private Double revenueAmount;//收入金额
+  private Double disbursementAmount;//支出金额
+  private Double accountBalance;//账户余额
 
   public Integer getId() {
     return id;
@@ -21,6 +22,22 @@ public class AlipayOrder {
 
   public void setId(Integer id) {
     this.id = id;
+  }
+
+  public String getAccountingCode() {
+    return accountingCode;
+  }
+
+  public void setAccountingCode(String accountingCode) {
+    this.accountingCode = accountingCode;
+  }
+
+  public String getBusinessCode() {
+    return businessCode;
+  }
+
+  public void setBusinessCode(String businessCode) {
+    this.businessCode = businessCode;
   }
 
   public String getOrderCode() {
@@ -31,75 +48,51 @@ public class AlipayOrder {
     this.orderCode = orderCode;
   }
 
-  public Double getTotalAmount() {
-    return totalAmount;
+  public String getGoodsName() {
+    return goodsName;
   }
 
-  public void setTotalAmount(Double totalAmount) {
-    this.totalAmount = totalAmount;
+  public void setGoodsName(String goodsName) {
+    this.goodsName = goodsName;
   }
 
-  public Double getActualAmount() {
-    return actualAmount;
+  public Date getOccuredTime() {
+    return occuredTime;
   }
 
-  public void setActualAmount(Double actualAmount) {
-    this.actualAmount = actualAmount;
+  public void setOccuredTime(Date occuredTime) {
+    this.occuredTime = occuredTime;
   }
 
-  public Date getBuildTime() {
-    return buildTime;
+  public String getConsumerAccount() {
+    return consumerAccount;
   }
 
-  public void setBuildTime(Date buildTime) {
-    this.buildTime = buildTime;
+  public void setConsumerAccount(String consumerAccount) {
+    this.consumerAccount = consumerAccount;
   }
 
-  public Date getPayTime() {
-    return payTime;
+  public Double getRevenueAmount() {
+    return revenueAmount;
   }
 
-  public void setPayTime(Date payTime) {
-    this.payTime = payTime;
+  public void setRevenueAmount(Double revenueAmount) {
+    this.revenueAmount = revenueAmount;
   }
 
-  public Integer getTotalCount() {
-    return totalCount;
+  public Double getDisbursementAmount() {
+    return disbursementAmount;
   }
 
-  public void setTotalCount(Integer totalCount) {
-    this.totalCount = totalCount;
+  public void setDisbursementAmount(Double disbursementAmount) {
+    this.disbursementAmount = disbursementAmount;
   }
 
-  public String getCloseReason() {
-    return closeReason;
+  public Double getAccountBalance() {
+    return accountBalance;
   }
 
-  public void setCloseReason(String closeReason) {
-    this.closeReason = closeReason;
-  }
-
-  public String getRefundAmount() {
-    return refundAmount;
-  }
-
-  public void setRefundAmount(String refundAmount) {
-    this.refundAmount = refundAmount;
-  }
-
-  public Date getConfirmTime() {
-    return confirmTime;
-  }
-
-  public void setConfirmTime(Date confirmTime) {
-    this.confirmTime = confirmTime;
-  }
-
-  public Double getAlreadyPayAmount() {
-    return alreadyPayAmount;
-  }
-
-  public void setAlreadyPayAmount(Double alreadyPayAmount) {
-    this.alreadyPayAmount = alreadyPayAmount;
+  public void setAccountBalance(Double accountBalance) {
+    this.accountBalance = accountBalance;
   }
 }
