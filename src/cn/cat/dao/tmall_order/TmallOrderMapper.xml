@@ -24,6 +24,15 @@
         VALUES (#{orderCode}, #{totalAmount}, #{actualAmount}, #{buildTime}, #{payTime}, #{totalCount},
                 #{closeReason}, #{refundAmount}, #{confirmTime}, #{alreadyPayAmount})
     </insert>
+    <select id="countCostForMonth" resultType="java.lang.Double">
+        SELECT SUM(temp.`quantity` * temp.costPrice) AS totalCost FROM
+            (SELECT tmall_order.`orderCode`,tmall_order.`payTime`,
+                 order_detail.`productCode`,order_detail.`quantity`,
+                 product.costPrice FROM tmall_order,order_detail,product
+             WHERE tmall_order.`orderCode`= order_detail.`orderCode`
+                   AND order_detail.`productCode`=product.`productCode`) AS temp
+        WHERE temp.payTime LIKE CONCAT(#{chooseMonth},'%')
+    </select>
 
 
 </mapper>

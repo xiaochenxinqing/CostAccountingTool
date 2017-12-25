@@ -7,21 +7,30 @@
 	<!-- ————————————————————————————————resultMap区————————————————————————————  -->
 	
 	<!--——————————————————————————————————增 ———————————————————————————————————————————————— -->
-
+	<insert id="addProduct">
+		REPLACE   INTO  product (productCode,`costPrice`) VALUES (#{productCode},#{CostPrice})
+	</insert>
 	<!--——————————————————————————————————删 ———————————————————————————————————————————————— -->
-
+	<delete id="delProductByid">
+		DELETE  FROM product WHERE id = #{id}
+	</delete>
 	<!--——————————————————————————————————改 ———————————————————————————————————————————————— -->
-
-	
+	<update id="updateProduct">
+		UPDATE product SET  productCode =#{productCode},CostPrice=#{CostPrice} where id =#{id}
+	</update>
 	<!--——————————————————————————————————查 ———————————————————————————————————————————————— -->
+	<select id="getAllProducts" resultType="cn.cat.pojo.Product">
+
+		SELECT * FROM product ORDER BY id DESC
+	</select>
 
 
 
 	<!-- ————————————————————————————————cache配置————————————————————————————  -->
 	<cache eviction="FIFO" flushInterval="60000" size="512"  readOnly="true"/>
-	<insert id="addProduct">
-		REPLACE   INTO  product (productCode,`costPrice`) VALUES (#{productCode},#{CostPrice})
-	</insert>
+
+
+
 
 
 </mapper>

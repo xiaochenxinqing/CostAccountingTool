@@ -75,10 +75,10 @@ Time: 14:11
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="">商品成本管理</a>
+                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/product_manage.html">商品成本管理</a>
                         </li>
-                        <li>
-                            <a class="J_menuItem" href="">本地订单管理</a>
+                        <%--<li>
+                            <a class="J_menuItem" href="">天猫订单管理</a>
                         </li>
                         <li>
                             <a class="J_menuItem" href="">支付宝订单管理</a>
@@ -86,7 +86,7 @@ Time: 14:11
                         <li>
                             <a class="J_menuItem" href="">订单子条目管理</a>
                         </li>
-
+--%>
                     </ul>
 
                 </li>
@@ -120,10 +120,10 @@ Time: 14:11
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="">天猫订单成本计算</a>
+                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/tmall_order_account.html">天猫订单成本计算</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="">支付宝订单成本计算</a>
+                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/alipay_order_account.html">支付宝订单成本计算</a>
                         </li>
 
 
@@ -183,7 +183,7 @@ Time: 14:11
                     data-id="${pageContext.request.contextPath }/statics/introduction.html" seamless></iframe>
         </div>
         <div class="footer">
-            <div class="pull-right">&copy; 2014-2015 <a href="http://www.whcsoft.com" target="_blank">华创软件</a>
+            <div class="pull-right">&copy; 2017 <a href="http://www.whcsoft.com" target="_blank">华创软件</a>
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ import cn.cat.pojo.Product;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author yinxiaochen
@@ -24,5 +25,20 @@ public class ProductServiceImpl implements  ProductService {
     @Override
     public int addProduct(Product product) throws Exception {
         return productMapper.addProduct(product);
+    }
+
+    @Override
+    public List<Product> getAllProducts() throws Exception {
+        return productMapper.getAllProducts();
+    }
+
+    @Override
+    public int updateProduct(Product product) throws Exception {
+        return productMapper.updateProduct(product);
+    }
+
+    @Override
+    public int delProductByid(Integer id) throws Exception {
+        return productMapper.delProductByid(id);
     }
 }

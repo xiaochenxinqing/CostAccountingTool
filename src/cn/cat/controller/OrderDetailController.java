@@ -56,7 +56,8 @@ public class OrderDetailController {
                         Integer quantity = null;//购买数量
                         String productCode = "";//外部系统编号（货号）
                         String orderStatus = "";//订单状态
-
+                        csvReader.setUseComments(true);
+                        csvReader.setComment('#');
                         csvReader.readHeaders();
                         while (csvReader.readRecord()){
                             // 读一整行

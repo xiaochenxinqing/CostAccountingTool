@@ -9,5 +9,6 @@ import cn.cat.pojo.AlipayOrder;
 public interface AlipayOrderService {
 
     int  addAlipayOrder(AlipayOrder alipayOrder)throws Exception;
+    Double countCostForMonth(String chooseMonth) throws Exception;
 
 }

@@ -4,6 +4,7 @@ import cn.cat.pojo.Product;
 import cn.cat.pojo.User;
 import cn.cat.service.product.ProductService;
 import cn.cat.tools.ExcelUtil;
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -93,7 +94,6 @@ public class ProductController {
                                 cell1 = row.getCell(1);
                                 cell1.setCellType(Cell.CELL_TYPE_STRING);
                                 costPrice = Double.parseDouble(cell1.getStringCellValue().trim());
-
                                 product = new Product();
                                 product.setProductCode(prodcutCode);
                                 product.setCostPrice(costPrice);
@@ -115,7 +115,52 @@ public class ProductController {
         }
         return "{\"status\":\"" + reInfo + "\"}";
 
+    }
+
+    @RequestMapping("/getAllProducts.do")
+    @ResponseBody
+    public Object getAllProducts() throws Exception {
+
+        System.out.println("长度是"+productService.getAllProducts().size());
+        return JSON.toJSONString(productService.getAllProducts());
+
 
     }
+
+    @RequestMapping("/addNewProduct.do")
+    @ResponseBody
+    public Object addNewProduct(Product product) throws Exception {
+       String reInfo ="";
+        int result = -1;
+        result =productService.addProduct(product);
+        if(result>0){
+            reInfo ="success";
+        }
+        return "{\"status\":\"" + reInfo + "\"}";
+    }
+
+    @RequestMapping("/changeProduct.do")
+    @ResponseBody
+    public Object changeProduct(Product product) throws Exception {
+        String reInfo ="";
+        int result = -1;
+        result =productService.updateProduct(product);
+        if(result>0){
+            reInfo ="success";
+        }
+        return "{\"status\":\"" + reInfo + "\"}";
+    }
+    @RequestMapping("/delProduct.do")
+    @ResponseBody
+    public Object delProduct(@RequestParam("id") Integer id) throws Exception {
+        String reInfo ="";
+        int result = -1;
+        result =productService.delProductByid(id);
+        if(result>0){
+            reInfo ="success";
+        }
+        return "{\"status\":\"" + reInfo + "\"}";
+    }
+
 
 }

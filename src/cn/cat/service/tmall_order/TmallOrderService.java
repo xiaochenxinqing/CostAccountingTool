@@ -8,4 +8,5 @@ import cn.cat.pojo.TmallOrder;
  */
 public interface TmallOrderService {
     int  addTmallOrder (TmallOrder tmallOrder)throws Exception;
+    Double countCostForMonth(String chooseMonth) throws Exception;
 }

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/widgets.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Mar 2016 12:30:08 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - 小工具</title>
+
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="css/plugins/colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight" style="margin: 100px  auto;width:600px;">
+   <h3 style="color:#46ABA1;"> 请选择您要计算的月份：</h3>
+
+
+    月份<input type="text" id="form1_2" Class="Wdate" readonly
+             onClick="WdatePicker({ dateFmt: 'yyyy-MM', isShowToday: false, isShowClear: false });">
+    <button type="button" id="button1">开始计算</button>
+
+
+
+            <div class="widget navy-bg no-padding">
+                <div class="p-m">
+                    <h1 class="m-xs" id="showResult">&yen; </h1>
+
+                    <h3 class="font-bold no-margins">
+                        天猫订单月成本
+                    </h3>
+
+                </div>
+                <div class="flot-chart">
+                    <div class="flot-chart-content" id="flot-chart1"></div>
+                </div>
+            </div>
+
+
+</div>
+<script src="js/jquery.min63b9.js?v=2.1.4"></script>
+<script src="js/jquery-ui-1.10.4.min.js"></script>
+<script src="js/bootstrap.min14ed.js?v=3.3.6"></script>
+<script src="js/content.mine209.js?v=1.0.0"></script>
+<script src="js/plugins/iCheck/icheck.min.js"></script>
+<script src="js/plugins/flot/jquery.flot.js"></script>
+<script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script src="js/plugins/flot/jquery.flot.resize.js"></script>
+<script type="text/javascript" src="js/time.js"></script>
+<script type="text/javascript" src="calendar/WdatePicker.js"></script>
+
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+
+
+        /*第一个表 求和操作*/
+
+        $("#button1").click(function () {
+            if ($("#form1_2").val() == "") {
+                alert("您尚未选择月份！");
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: getRootPath() + "/tmallOrder/countCostForTmallOrder.do",
+                data: "chooseMonth=" + $("#form1_2").val(),
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == 'success') {
+                        if(data.cost== 'null'){
+                            $("#showResult").html("暂无数据");
+                        }else {
+                        $("#showResult").html("&yen;" + data.cost);
+                        }
+                    } else {
+                        alert("查询失败！")
+                    }
+                }
+            });
+
+        });
+
+
+        function getRootPath() {
+            //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+            var curWwwPath = window.document.location.href;
+            //获取主机地址之后的目录，如： /uimcardprj/share/meun.jsp
+            var pathName = window.document.location.pathname;
+            var pos = curWwwPath.indexOf(pathName);
+            //获取主机地址，如： http://localhost:8083
+            var localhostPaht = curWwwPath.substring(0, pos);
+            //获取带"/"的项目名，如：/uimcardprj
+            var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+            return (localhostPaht + projectName);
+        }
+
+    });
+
+</script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/widgets.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Mar 2016 12:30:08 GMT -->
+</html>

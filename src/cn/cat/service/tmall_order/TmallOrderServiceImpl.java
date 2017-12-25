@@ -18,4 +18,9 @@ public class TmallOrderServiceImpl  implements  TmallOrderService{
     public int addTmallOrder(TmallOrder tmallOrder) throws Exception {
         return tmallOrderMapper.addTmallOrder(tmallOrder);
     }
+
+    @Override
+    public Double countCostForMonth(String chooseMonth) throws Exception {
+        return tmallOrderMapper.countCostForMonth(chooseMonth);
+    }
 }

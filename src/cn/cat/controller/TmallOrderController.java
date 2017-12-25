@@ -63,7 +63,8 @@ public class TmallOrderController {
                         Double refundAmount;//退款金额
                         Date confirmTime;//确认收货时间
                         Double alreadyPayAmount;//打款商家金额
-
+                        csvReader.setUseComments(true);
+                        csvReader.setComment('#');
                         csvReader.readHeaders();
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         while (csvReader.readRecord()) {
@@ -73,12 +74,13 @@ public class TmallOrderController {
                             orderCode = csvReader.get("订单编号").trim().split("\"")[1];
                             totalAmount = Double.parseDouble(csvReader.get("总金额").trim());
                             actualAmount = Double.parseDouble(csvReader.get("买家实际支付金额").trim());
-                            buildTime =csvReader.get("订单创建时间")==null||csvReader.get("订单创建时间").trim().equals("")?null: sdf.parse(csvReader.get("订单创建时间"));
-                            payTime = csvReader.get("订单付款时间")==null||csvReader.get("订单付款时间").trim().equals("")?null: sdf.parse(csvReader.get("订单付款时间"));
+                            buildTime = csvReader.get("订单创建时间") == null || csvReader.get("订单创建时间").trim().equals("") ? null : sdf.parse(csvReader.get("订单创建时间"));
+                            payTime = csvReader.get("订单付款时间 ") == null || csvReader.get("订单付款时间 ").trim().equals("") ? null : sdf.parse(csvReader.get("订单付款时间 "));
+                            System.out.println("时间是" + csvReader.get("订单付款时间 "));
                             totalCount = Integer.parseInt(csvReader.get("宝贝总数量"));
                             closeReason = csvReader.get("订单关闭原因").trim();
                             refundAmount = Double.parseDouble(csvReader.get("退款金额").trim());
-                            confirmTime = csvReader.get("确认收货时间")==null||csvReader.get("确认收货时间").trim().equals("")?null: sdf.parse(csvReader.get("确认收货时间"));
+                            confirmTime = csvReader.get("确认收货时间") == null || csvReader.get("确认收货时间").trim().equals("") ? null : sdf.parse(csvReader.get("确认收货时间"));
                             alreadyPayAmount = Double.parseDouble(csvReader.get("打款商家金额").trim().split("元")[0]);
                             //开始赋值
                             tmallOrder = new TmallOrder();
@@ -109,6 +111,26 @@ public class TmallOrderController {
         }
         return "{\"status\":\"" + reInfo + "\"}";
 
+
+    }
+
+
+    @RequestMapping(value = "/countCostForTmallOrder.do", method = RequestMethod.POST)
+    @ResponseBody
+    public String countCost(@RequestParam(value = "chooseMonth", required = false) String chooseMonth) {
+
+        Double totalCount = null;
+        String  reInfo = "success";;//用来保存返回信息
+        try {
+            totalCount = tmallOrderService.countCostForMonth(chooseMonth);
+        } catch (Exception e) {
+            reInfo = "未知错误！";
+            e.printStackTrace();
+        }finally {
+
+
+            return "{\"status\":\"" + reInfo + "\",\"cost\":\""+totalCount+"\"}";
+        }
 
     }
 

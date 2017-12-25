@@ -1,6 +1,9 @@
 package cn.cat.service.product;
 
 import cn.cat.pojo.Product;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author yinxiaochen
@@ -9,9 +12,17 @@ import cn.cat.pojo.Product;
 public interface ProductService {
     /**
      * 添加新的商品
+     *
      * @param product
      * @return
      * @throws Exception
      */
-    int  addProduct(Product product)throws Exception;
+    int addProduct(Product product) throws Exception;
+
+    List<Product> getAllProducts() throws Exception;
+
+    int updateProduct(Product product) throws Exception;
+
+    int delProductByid(Integer id) throws Exception;
+
 }

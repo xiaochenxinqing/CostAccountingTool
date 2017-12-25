@@ -522,21 +522,21 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min14ed.js?v=3.3.6"></script>
 <script type="text/javascript" src="js/content.mine209.js?v=1.0.0"></script>
-<script type="text/javascript">
-    //DOM
-    const $ = document.querySelector.bind(document);
+    <script type="text/javascript">
+        //DOM
+        const $ = document.querySelector.bind(document);
 
-    //APP
-    let App = {};
-    App.init = (function() {
-        //Init
-        function handleFileSelect(evt) {
-            const files = evt.target.files; // FileList object
+        //APP
+        let App = {};
+        App.init = (function() {
+            //Init
+            function handleFileSelect(evt) {
+                const files = evt.target.files; // FileList object
 
-            //files template
-            let template = `${Object.keys(files)
-                .map(
-                    file => `<div class="file file--${file}">
+                //files template
+                let template = `${Object.keys(files)
+                    .map(
+                        file => `<div class="file file--${file}">
      <div class="name"><span>${files[file].name}</span></div>
      <div class="progress active"></div>
      <div class="done">
@@ -547,63 +547,61 @@
 						</a>
      </div>
     </div>`
-                )
-                .join("")}`;
+                    )
+                    .join("")}`;
 
-            $("#drop").classList.add("hidden");
-            $("footer").classList.add("hasFiles");
-            $(".importar").classList.add("active");
-            setTimeout(() => {
-                $(".list-files").innerHTML = template;
-        }, 1000);
+                $("#drop").classList.add("hidden");
+                $("footer").classList.add("hasFiles");
+                $(".importar").classList.add("active");
+                setTimeout(() => {
+                    $(".list-files").innerHTML = template;
+            }, 1000);
 
-            Object.keys(files).forEach(file => {
-                let load = 2000 + file * 2000; // fake load
-            setTimeout(() => {
-                $(`.file--${file}`).querySelector(".progress").classList.remove("active");
-            $(`.file--${file}`).querySelector(".done").classList.add("anim");
-        }, load);
+                Object.keys(files).forEach(file => {
+                    let load = 2000 + file * 2000; // fake load
+                setTimeout(() => {
+                    $(`.file--${file}`).querySelector(".progress").classList.remove("active");
+                $(`.file--${file}`).querySelector(".done").classList.add("anim");
+            }, load);
+            });
+            }
+
+            // trigger input
+            $("#triggerFile").addEventListener("click", evt => {
+                evt.preventDefault();
+            $("input[type=file]").click();
         });
-        }
 
-        // trigger input
-        $("#triggerFile").addEventListener("click", evt => {
-            evt.preventDefault();
-        $("input[type=file]").click();
-    });
+            // drop events
+            $("#drop").ondragleave = evt => {
+                $("#drop").classList.remove("active");
+                evt.preventDefault();
+            };
+            $("#drop").ondragover = $("#drop").ondragenter = evt => {
+                $("#drop").classList.add("active");
+                evt.preventDefault();
+            };
+            $("#drop").ondrop = evt => {
+                $("input[type=file]").files = evt.dataTransfer.files;
+                $("footer").classList.add("hasFiles");
+                $("#drop").classList.remove("active");
+                evt.preventDefault();
+            };
 
-        // drop events
-        $("#drop").ondragleave = evt => {
-            $("#drop").classList.remove("active");
-            evt.preventDefault();
-        };
-        $("#drop").ondragover = $("#drop").ondragenter = evt => {
-            $("#drop").classList.add("active");
-            evt.preventDefault();
-        };
-        $("#drop").ondrop = evt => {
-            $("input[type=file]").files = evt.dataTransfer.files;
-            $("footer").classList.add("hasFiles");
-            $("#drop").classList.remove("active");
-            evt.preventDefault();
-        };
+            //upload more
+            $(".importar").addEventListener("click", () => {
+                $(".list-files").innerHTML = "";
+            $("footer").classList.remove("hasFiles");
+            $(".importar").classList.remove("active");
+            setTimeout(() => {
+                $("#drop").classList.remove("hidden");
+        }, 500);
+        });
 
-        //upload more
-        $(".importar").addEventListener("click", () => {
-            $(".list-files").innerHTML = "";
-        $("footer").classList.remove("hasFiles");
-        $(".importar").classList.remove("active");
-        setTimeout(() => {
-            $("#drop").classList.remove("hidden");
-    }, 500);
-    });
-
-        // input change
-        $("input[type=file]").addEventListener("change", handleFileSelect);
-    })();
-</script>
-
-
+            // input change
+            $("input[type=file]").addEventListener("change", handleFileSelect);
+        })();
+    </script>
 <script type="text/javascript">
 
     jQuery(function () {
@@ -622,7 +620,7 @@
             }
             var data = new FormData(jQuery("body #upform")[0]);
             var rootpath = getRootPath();
-            var url = rootpath + "";
+            var url = rootpath + "/alipayOrder/uploadAlipayOrder.do"
 
             jQuery.ajax({
                 type: "POST",

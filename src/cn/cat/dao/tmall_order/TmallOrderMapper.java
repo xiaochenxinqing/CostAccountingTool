@@ -1,6 +1,7 @@
 package cn.cat.dao.tmall_order;
 
 import cn.cat.pojo.TmallOrder;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author yinxiaochen
@@ -8,4 +9,6 @@ import cn.cat.pojo.TmallOrder;
  */
 public interface TmallOrderMapper {
     int addTmallOrder(TmallOrder tmallOrder)throws  Exception;
+    Double countCostForMonth(@Param("chooseMonth") String chooseMonth) throws Exception;
+
 }

@@ -20,11 +20,20 @@
 	<!-- ————————————————————————————————cache配置————————————————————————————  -->
 	<cache eviction="FIFO" flushInterval="60000" size="512"  readOnly="true"/>
     <insert id="addAlipayOrder">
-		REPLACE   INTO  alipay_order(`accountingCode`, businessCode, orderCode, goodsName, occuredTime,
-		`consumerAccount`, revenueAmount, disbursementAmount, accountBalance)
+		REPLACE   INTO  alipay_order(accountingCode, businessCode, orderCode, goodsName, occuredTime,
+		 revenueAmount, disbursementAmount, accountBalance)
 		VALUES 	(#{accountingCode}, #{businessCode}, #{orderCode}, #{goodsName}, #{occuredTime},
-		#{consumerAccount}, #{revenueAmount}, #{disbursementAmount}, #{accountBalance})
+		#{revenueAmount}, #{disbursementAmount}, #{accountBalance})
 	</insert>
+	<select id="countCostForMonth" resultType="java.lang.Double">
+		SELECT SUM(temp.`quantity` * temp.costPrice) AS totalCost FROM
+			(SELECT alipay_order.`orderCode`,alipay_order.occuredTime,
+				 order_detail.`productCode`,order_detail.`quantity`,
+				 product.costPrice FROM alipay_order,order_detail,product
+			 WHERE alipay_order.`orderCode`= order_detail.`orderCode`
+				   AND order_detail.`productCode`=product.`productCode`) AS temp
+		WHERE temp.occuredTime LIKE CONCAT(#{chooseMonth},'%')
+	</select>
 
 
 </mapper>

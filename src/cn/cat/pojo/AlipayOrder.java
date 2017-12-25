@@ -11,7 +11,6 @@ public class AlipayOrder {
   private String orderCode;//商户订单号
   private String goodsName;//商品名称
   private Date occuredTime;//发生时间
-  private String consumerAccount;//对方账号
   private Double revenueAmount;//收入金额
   private Double disbursementAmount;//支出金额
   private Double accountBalance;//账户余额
@@ -64,13 +63,6 @@ public class AlipayOrder {
     this.occuredTime = occuredTime;
   }
 
-  public String getConsumerAccount() {
-    return consumerAccount;
-  }
-
-  public void setConsumerAccount(String consumerAccount) {
-    this.consumerAccount = consumerAccount;
-  }
 
   public Double getRevenueAmount() {
     return revenueAmount;
