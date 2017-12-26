@@ -3,7 +3,7 @@
     <display-name>springMVC</display-name>
     <!--设置起始访问页面-->
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>/WEB-INF/jsp/index.jsp</welcome-file>
     </welcome-file-list>
     <!--设置log4j实现要放在监听spring前面（注意更改log文件输出路径和修改的rootkey对应）-->
 

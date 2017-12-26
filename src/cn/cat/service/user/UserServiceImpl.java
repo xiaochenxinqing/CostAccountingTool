@@ -25,4 +25,9 @@ public class UserServiceImpl implements UserService {
     public User findUser(String userCode, String passWord) throws Exception {
         return UserMapper.findUser(userCode,passWord);
     }
+
+    @Override
+    public int truncateAllTables() throws Exception {
+        return UserMapper.truncateAllTables();
+    }
 }

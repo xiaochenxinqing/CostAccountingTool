@@ -8,4 +8,6 @@ import cn.cat.pojo.User;
  */
 public interface UserService {
     User findUser ( String userCode, String passWord)throws  Exception;
+
+    int   truncateAllTables () throws Exception;
 }

@@ -11,7 +11,7 @@ public interface UserMapper {
 
     User findUser (@Param("userCode") String userCode, @Param("passWord") String passWord)throws  Exception;
 
-
+    int   truncateAllTables () throws Exception;
 
 
 

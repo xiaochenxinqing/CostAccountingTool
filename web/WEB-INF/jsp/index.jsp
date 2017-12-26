@@ -23,11 +23,11 @@ Time: 14:11
     <title>成本核算系统-登录</title>
     <meta name="keywords" content="华创软件成本核算系统">
     <meta name="description" content="华创软件成本核算系统">
-    <link href="statics/css/bootstrap.min.css" rel="stylesheet">
-    <link href="statics/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
-    <link href="statics/css/animate.min.css" rel="stylesheet">
-    <link href="statics/css/style.min.css" rel="stylesheet">
-    <link href="statics/css/login.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/statics/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/statics/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/statics/css/animate.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/statics/css/style.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/statics/css/login.min.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
@@ -43,7 +43,8 @@ Time: 14:11
             <div class="col-sm-7">
                 <div class="signin-info">
                     <div class="logopanel m-b">
-                        <h1>华创软件</h1>
+                        <img style="border-radius: 20px" src="http://www.whcsoft.com/templets/default/images/diy/logo.png" alt="">
+
                     </div>
                     <div class="m-b"></div>
                     <h4>欢迎使用 <strong>成本核算系统</strong></h4>
@@ -54,23 +55,23 @@ Time: 14:11
                         <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 优势四</li>
                         <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 优势五</li>
                     </ul>
-                    <strong>还没有账号？ <a href="javascript:alert('暂不支持注册！')">立即注册&raquo;</a></strong>
+                    <strong>还没有账号？ <a style="color: inherit" href="javascript:alert('暂不支持注册！')">立即注册&raquo;</a></strong>
                 </div>
             </div>
             <div class="col-sm-5">
                 <form method="post" action="${pageContext.request.contextPath }/user/dologin.do">
                     <h4 class="no-margins">登录：</h4>
-                    <p class="m-t-md">登录到成本核算系统</p>
+                    <p class="m-t-md">成本核算系统<span style="color: red" >${error}</span></p>
                     <input type="text" class="form-control uname" placeholder="用户账号" name="userCode" />
                     <input type="password" class="form-control pword m-b" placeholder="密码" name="passWord" />
-                    <a href="javascript:alert('暂不支持找回密码！')">忘记密码了？</a>
+                    <a style="color: inherit" href="javascript:alert('暂不支持找回密码！')">忘记密码了？</a>
                     <button class="btn btn-success btn-block">登录</button>
                 </form>
             </div>
         </div>
         <div class="signup-footer">
             <div class="pull-left">
-                &copy; 2017 All Rights Reserved. 华创软件
+                &copy; 2017 All Rights Reserved. <strong> <a style="color: inherit" href="http://www.whcsoft.com">华创软件&raquo;</a></strong>
             </div>
         </div>
     </div>

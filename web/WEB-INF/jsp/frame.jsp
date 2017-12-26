@@ -48,7 +48,7 @@ Time: 14:11
                                    src="${pageContext.request.contextPath }/statics/img/profile_small.jpg"/></span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
-                               <span class="block m-t-xs"><strong class="font-bold">Beaut-zihan</strong></span>
+                               <span class="block m-t-xs"><strong class="font-bold">admin</strong></span>
                                 <span class="text-muted text-xs block">管理员<b class="caret"></b></span>
                                 </span>
                         </a>
@@ -60,7 +60,7 @@ Time: 14:11
                             </li>
 
                             <li class="divider"></li>
-                            <li><a href="###">安全退出</a>
+                            <li><a href="${pageContext.request.contextPath }/user/loginout.do">安全退出</a>
                             </li>
                         </ul>
                     </div>
@@ -77,6 +77,9 @@ Time: 14:11
                         <li>
                             <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/product_manage.html">商品成本管理</a>
                         </li>
+                      <%--  <li>
+                            <a  href="###" id="reset">系统数据重置</a>
+                        </li>--%>
                         <%--<li>
                             <a class="J_menuItem" href="">天猫订单管理</a>
                         </li>
@@ -175,7 +178,7 @@ Time: 14:11
                     </li>
                 </ul>
             </div>
-            <a href="###" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+            <a href="${pageContext.request.contextPath }/user/loginout.do" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
         </div>
         <div class="row J_mainContent" id="content-main">
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%"
@@ -294,6 +297,43 @@ Time: 14:11
 <script src="${pageContext.request.contextPath }/statics/js/hplus.min862f.js?v=4.1.0"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/statics/js/contabs.min.js"></script>
 <script src="${pageContext.request.contextPath }/statics/js/plugins/pace/pace.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#reset").click(function () {
+            if(confirm("此功能将会清空全部数据，您确定要继续吗？")){
+                 if(confirm("警告：此操作是不可逆的，数据将全部丢失，您确定要重置吗？")){
+
+                     /*$.ajax({
+                         type: "GET",
+                         url: getRootPath() + "/user/resetData.do",
+                         success: function (data) {
+                             if(data.status==="success"){
+                                 alert("清空数据库成功！")
+                             }else {
+                                 alert("重置数据库失败！")
+                             }
+                         }
+                     });*/
+
+                 }
+            }
+        });
+        function getRootPath() {
+            //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+            var curWwwPath = window.document.location.href;
+            //获取主机地址之后的目录，如： /uimcardprj/share/meun.jsp
+            var pathName = window.document.location.pathname;
+            var pos = curWwwPath.indexOf(pathName);
+            //获取主机地址，如： http://localhost:8083
+            var localhostPaht = curWwwPath.substring(0, pos);
+            //获取带"/"的项目名，如：/uimcardprj
+            var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+            return (localhostPaht + projectName);
+        }
+    })
+</script>
+
+
 </body>
 
 

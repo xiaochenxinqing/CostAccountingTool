@@ -9,7 +9,12 @@
 	<!--——————————————————————————————————增 ———————————————————————————————————————————————— -->
 
 	<!--——————————————————————————————————删 ———————————————————————————————————————————————— -->
-
+	<delete id="truncateAllTables">
+		TRUNCATE TABLE product;
+		TRUNCATE TABLE order_detail;
+		TRUNCATE TABLE tmall_order;
+		TRUNCATE TABLE alipay_order;
+	</delete>
 	<!--——————————————————————————————————改 ———————————————————————————————————————————————— -->
 
 	
@@ -19,6 +24,7 @@
 
 	<!-- ————————————————————————————————cache配置————————————————————————————  -->
 	<cache eviction="FIFO" flushInterval="60000" size="512"  readOnly="true"/>
+
     <select id="findUser" resultType="cn.cat.pojo.User">
 		SELECT * FROM user WHERE userCode = #{userCode} and passWord = #{passWord}
 	</select>

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>支付宝订单上传</title>
+    <title>订单子条目上传</title>
     <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
     <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
@@ -456,16 +456,16 @@
 
 <body class="gray-bg">
 
-    <div class="ibox " style="filter:alpha(opacity=50);background:#ffffff;width:400px;z-index:10;position: fixed;top:300px;left: 35%" id="progressArea" hidden>
-        <div class="ibox-title">
-            <h5>导入中....请稍后 </h5>（数据过多时会需要一些时间，请耐心等待勿进行其他操作
-        </div>
-        <div class="ibox-content">
-            <div class="spiner-example">
-                <div class="sk-spinner sk-spinner-rotating-plane"></div>
-            </div>
+<div class="ibox " style="filter:alpha(opacity=50);background:#ffffff;width:400px;z-index:10;position: fixed;top:300px;left: 35%" id="progressArea" hidden>
+    <div class="ibox-title">
+        <h5>导入中....请稍后 </h5>（数据过多时会需要一些时间，请耐心等待勿进行其他操作
+    </div>
+    <div class="ibox-content">
+        <div class="spiner-example">
+            <div class="sk-spinner sk-spinner-rotating-plane"></div>
         </div>
     </div>
+</div>
 
 <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
@@ -522,21 +522,21 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min14ed.js?v=3.3.6"></script>
 <script type="text/javascript" src="js/content.mine209.js?v=1.0.0"></script>
-    <script type="text/javascript">
-        //DOM
-        const $ = document.querySelector.bind(document);
+<script type="text/javascript">
+    //DOM
+    const $ = document.querySelector.bind(document);
 
-        //APP
-        let App = {};
-        App.init = (function() {
-            //Init
-            function handleFileSelect(evt) {
-                const files = evt.target.files; // FileList object
+    //APP
+    let App = {};
+    App.init = (function() {
+        //Init
+        function handleFileSelect(evt) {
+            const files = evt.target.files; // FileList object
 
-                //files template
-                let template = `${Object.keys(files)
-                    .map(
-                        file => `<div class="file file--${file}">
+            //files template
+            let template = `${Object.keys(files)
+                .map(
+                    file => `<div class="file file--${file}">
      <div class="name"><span>${files[file].name}</span></div>
      <div class="progress active"></div>
      <div class="done">
@@ -547,61 +547,63 @@
 						</a>
      </div>
     </div>`
-                    )
-                    .join("")}`;
+                )
+                .join("")}`;
 
-                $("#drop").classList.add("hidden");
-                $("footer").classList.add("hasFiles");
-                $(".importar").classList.add("active");
-                setTimeout(() => {
-                    $(".list-files").innerHTML = template;
-            }, 1000);
-
-                Object.keys(files).forEach(file => {
-                    let load = 2000 + file * 2000; // fake load
-                setTimeout(() => {
-                    $(`.file--${file}`).querySelector(".progress").classList.remove("active");
-                $(`.file--${file}`).querySelector(".done").classList.add("anim");
-            }, load);
-            });
-            }
-
-            // trigger input
-            $("#triggerFile").addEventListener("click", evt => {
-                evt.preventDefault();
-            $("input[type=file]").click();
-        });
-
-            // drop events
-            $("#drop").ondragleave = evt => {
-                $("#drop").classList.remove("active");
-                evt.preventDefault();
-            };
-            $("#drop").ondragover = $("#drop").ondragenter = evt => {
-                $("#drop").classList.add("active");
-                evt.preventDefault();
-            };
-            $("#drop").ondrop = evt => {
-                $("input[type=file]").files = evt.dataTransfer.files;
-                $("footer").classList.add("hasFiles");
-                $("#drop").classList.remove("active");
-                evt.preventDefault();
-            };
-
-            //upload more
-            $(".importar").addEventListener("click", () => {
-                $(".list-files").innerHTML = "";
-            $("footer").classList.remove("hasFiles");
-            $(".importar").classList.remove("active");
+            $("#drop").classList.add("hidden");
+            $("footer").classList.add("hasFiles");
+            $(".importar").classList.add("active");
             setTimeout(() => {
-                $("#drop").classList.remove("hidden");
-        }, 500);
-        });
+                $(".list-files").innerHTML = template;
+        }, 1000);
 
-            // input change
-            $("input[type=file]").addEventListener("change", handleFileSelect);
-        })();
-    </script>
+            Object.keys(files).forEach(file => {
+                let load = 2000 + file * 2000; // fake load
+            setTimeout(() => {
+                $(`.file--${file}`).querySelector(".progress").classList.remove("active");
+            $(`.file--${file}`).querySelector(".done").classList.add("anim");
+        }, load);
+        });
+        }
+
+        // trigger input
+        $("#triggerFile").addEventListener("click", evt => {
+            evt.preventDefault();
+        $("input[type=file]").click();
+    });
+
+        // drop events
+        $("#drop").ondragleave = evt => {
+            $("#drop").classList.remove("active");
+            evt.preventDefault();
+        };
+        $("#drop").ondragover = $("#drop").ondragenter = evt => {
+            $("#drop").classList.add("active");
+            evt.preventDefault();
+        };
+        $("#drop").ondrop = evt => {
+            $("input[type=file]").files = evt.dataTransfer.files;
+            $("footer").classList.add("hasFiles");
+            $("#drop").classList.remove("active");
+            evt.preventDefault();
+        };
+
+        //upload more
+        $(".importar").addEventListener("click", () => {
+            $(".list-files").innerHTML = "";
+        $("footer").classList.remove("hasFiles");
+        $(".importar").classList.remove("active");
+        setTimeout(() => {
+            $("#drop").classList.remove("hidden");
+    }, 500);
+    });
+
+        // input change
+        $("input[type=file]").addEventListener("change", handleFileSelect);
+    })();
+</script>
+
+
 <script type="text/javascript">
 
     jQuery(function () {
@@ -620,7 +622,7 @@
             }
             var data = new FormData(jQuery("body #upform")[0]);
             var rootpath = getRootPath();
-            var url = rootpath + "/alipayOrder/uploadAlipayOrder.do"
+            var url = rootpath + "/alipayOrder/uploadAlipayOrder.do";
 
             jQuery.ajax({
                 type: "POST",
@@ -643,9 +645,9 @@
                 },
 
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                   /* alert("XMLHttpRequest.status：" + XMLHttpRequest.status);
-                    alert("XMLHttpRequest.readyState：" + XMLHttpRequest.readyState);
-                    alert("textStatus：" + textStatus);*/
+                    /* alert("XMLHttpRequest.status：" + XMLHttpRequest.status);
+                     alert("XMLHttpRequest.readyState：" + XMLHttpRequest.readyState);
+                     alert("textStatus：" + textStatus);*/
                     alert("未知错误！");
                     jQuery("#progressArea").hide();
                 }
