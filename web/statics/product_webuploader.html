@@ -520,7 +520,13 @@
 
     jQuery(function () {
         jQuery("#clear").click(function () {
-            jQuery("#upform").find("input").val('')
+            var file = document.getElementById("upinput");
+            // for IE, Opera, Safari, Chrome
+            if (file.outerHTML) {
+                file.outerHTML = file.outerHTML;
+            } else { // FF(包括3.5)
+                file.value = "";
+            }
         });
         jQuery("#submitbutton").click(function () {
             if (jQuery("#upform input").val() == '' || jQuery("#upform input").val() == null) {
