@@ -17,9 +17,8 @@
     <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
     <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/plugins/webuploader/webuploader.css">
-    <link rel="stylesheet" type="text/css" href="css/demo/webuploader-demo.min.css">
     <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <style>
 
 
@@ -513,7 +512,7 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min14ed.js?v=3.3.6"></script>
 <script type="text/javascript" src="js/content.mine209.js?v=1.0.0"></script>
-
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 
 
 <script type="text/javascript">
@@ -530,7 +529,12 @@
         });
         jQuery("#submitbutton").click(function () {
             if (jQuery("#upform input").val() == '' || jQuery("#upform input").val() == null) {
-                alert("您尚未选择任何文件!")
+                swal({
+                    title: "提示",
+                    text: "您尚未选择任何文件!",
+                    type: "error",
+                    closeOnConfirm: true
+                });
                 return;
             }
             var data = new FormData(jQuery("body #upform")[0]);
@@ -550,11 +554,19 @@
                     jQuery("#progressArea").show();
                 },
                 success: function (data) {
-                    alert(JSON.stringify(data.status));
                     jQuery("#progressArea").hide();
-                    if(data.status==="导入数据成功"){
-                        location.reload();
-                    }
+                    swal({
+                            title: "提示",
+                            text: JSON.stringify(data.status),
+                            type: "info",
+                            closeOnConfirm: true
+                        },
+                        function(){
+                            if (data.status === "导入数据成功") {
+                                location.reload();
+                            }
+                        });
+
                 },
 
                 error: function (XMLHttpRequest, textStatus, errorThrown) {

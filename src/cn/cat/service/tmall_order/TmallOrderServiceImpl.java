@@ -2,9 +2,11 @@ package cn.cat.service.tmall_order;
 
 import cn.cat.dao.tmall_order.TmallOrderMapper;
 import cn.cat.pojo.TmallOrder;
+import cn.cat.pojo.TmallResult;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author yinxiaochen
@@ -22,5 +24,10 @@ public class TmallOrderServiceImpl  implements  TmallOrderService{
     @Override
     public Double countCostForMonth(String chooseMonth) throws Exception {
         return tmallOrderMapper.countCostForMonth(chooseMonth);
+    }
+
+    @Override
+    public List<TmallResult> showMergeResult(String chooseMonth) throws Exception {
+        return tmallOrderMapper.showMergeResult(chooseMonth);
     }
 }

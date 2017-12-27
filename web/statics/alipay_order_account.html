@@ -30,9 +30,10 @@
     <h3 style="color:#46ABA1;"> 请选择您要计算的月份：</h3>
 
 
-    <input type="text" id="form1_1" Class="Wdate" readonly
+    <input type="text" id="chooseMonth" Class="Wdate" readonly
              onClick="WdatePicker({ dateFmt: 'yyyy-MM', isShowToday: true, isShowClear: false });">
     <button type="button" id="button1" class="btn btn-w-m btn-primary btn-sm">开始计算</button>
+    <button type="button" id="button2" class="btn btn-w-m btn-primary btn-sm">导出详情</button>
 
 
     <div class="widget navy-bg no-padding">
@@ -71,14 +72,14 @@
         /*第一个表 求和操作*/
 
         $("#button1").click(function () {
-            if ($("#form1_1").val() === "") {
+            if ($("#chooseMonth").val() === "") {
                 alert("您尚未选择月份！");
                 return false;
             }
             $.ajax({
                 type: "POST",
                 url: getRootPath() + "/alipayOrder/countCostForAlipayOrder.do",
-                data: "chooseMonth=" + $("#form1_1").val(),
+                data: "chooseMonth=" + $("#chooseMonth").val(),
                 dataType: "json",
                 success: function (data) {
                     if (data.status === 'success') {
@@ -94,6 +95,29 @@
             });
 
         });
+
+        $("#button2").click(function () {
+            if ($("#chooseMonth").val() == "") {
+                alert("您尚未选择月份！");
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: getRootPath() + "/alipayOrder/showMergeResult.do",
+                data: "chooseMonth=" + $("#chooseMonth").val(),
+                dataType: "json",
+                success: function (data) {
+                    if (data.status === 'success') {
+                        window.location.href="http://101.132.121.9:8080/mergeData/"+data.fileName;
+
+                    } else {
+                        alert("导出失败！")
+                    }
+                }
+            });
+
+        });
+
 
 
         function getRootPath() {

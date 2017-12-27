@@ -2,9 +2,13 @@ package cn.cat.controller;
 
 
 import cn.cat.pojo.AlipayOrder;
+import cn.cat.pojo.AlipayResult;
+import cn.cat.pojo.TmallResult;
 import cn.cat.service.alipay_order.AlipayOrderService;
 import com.csvreader.CsvReader;
+import com.csvreader.CsvWriter;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,11 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author yinxiaochen
@@ -134,6 +138,49 @@ public class AlipayOrderController {
 
             return "{\"status\":\"" + reInfo + "\",\"cost\":\""+totalCount+"\"}";
         }
+
+    }
+
+
+    @RequestMapping("/showMergeResult.do")
+    @ResponseBody
+    public Object showMergeResult(HttpServletRequest request, @RequestParam(value = "chooseMonth", required = false) String chooseMonth) throws Exception {
+        List<AlipayResult> alipayResultList = null;
+        String reInfo = "";
+        alipayResultList = alipayOrderService.showMergeResult(chooseMonth);
+        System.out.println("长度是"+alipayResultList.size());
+        //开始导入
+
+
+        String fileName = System.currentTimeMillis() + RandomUtils.nextInt(1000000) + "_mergeData.csv";
+        File filedir = new File("/mergeData");
+        if (!filedir.exists()) {
+            filedir.mkdirs();
+        }
+        File file = new File("/mergeData/" + fileName);
+        file.createNewFile();
+
+        CsvWriter csvWriter = new CsvWriter(new FileOutputStream(file), ',', Charset.forName("UTF-8"));
+        String[] headers = {"支付宝订单表订单号", "发生时间", "详情表订单编号", "购买数量", "详情表货号", "成本表货号", "成本表价格", ""};
+        csvWriter.writeRecord(headers);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String[] content = new String[7];
+        for (AlipayResult alipayResult : alipayResultList) {
+            content[0] = alipayResult.getAliordercode();
+            content[1] = alipayResult.getOccuredTime() == null ? null : sdf.format(alipayResult.getOccuredTime());
+            content[2] = alipayResult.getDetailordercode();
+            content[3] = alipayResult.getQuantity() == null ? null : alipayResult.getQuantity().toString();
+            content[4] = alipayResult.getDetailproductcode();
+            content[5] = alipayResult.getProproductcode();
+            content[6] = alipayResult.getCostPrice() == null ? null : alipayResult.getCostPrice().toString();
+            csvWriter.writeRecord(content);
+
+        }
+        csvWriter.close();
+        reInfo = "success";
+
+        return "{\"status\":\"" + reInfo + "\",\"fileName\":\"" + fileName + "\"}";
 
     }
 

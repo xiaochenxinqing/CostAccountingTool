@@ -2,9 +2,13 @@ package cn.cat.controller;
 
 
 import cn.cat.pojo.TmallOrder;
+import cn.cat.pojo.TmallResult;
 import cn.cat.service.tmall_order.TmallOrderService;
+import com.alibaba.fastjson.JSON;
 import com.csvreader.CsvReader;
+import com.csvreader.CsvWriter;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,11 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author yinxiaochen
@@ -120,17 +124,61 @@ public class TmallOrderController {
     public String countCost(@RequestParam(value = "chooseMonth", required = false) String chooseMonth) {
 
         Double totalCount = null;
-        String  reInfo = "success";;//用来保存返回信息
+        String reInfo = "success";
+        ;//用来保存返回信息
         try {
             totalCount = tmallOrderService.countCostForMonth(chooseMonth);
         } catch (Exception e) {
             reInfo = "未知错误！";
             e.printStackTrace();
-        }finally {
+        } finally {
 
 
-            return "{\"status\":\"" + reInfo + "\",\"cost\":\""+totalCount+"\"}";
+            return "{\"status\":\"" + reInfo + "\",\"cost\":\"" + totalCount + "\"}";
         }
+
+    }
+
+
+    @RequestMapping("/showMergeResult.do")
+    @ResponseBody
+    public Object showMergeResult(HttpServletRequest request, @RequestParam(value = "chooseMonth", required = false) String chooseMonth) throws Exception {
+        List<TmallResult> tmallResultList = null;
+        String reInfo = "";
+        tmallResultList = tmallOrderService.showMergeResult(chooseMonth);
+        //开始导入
+
+
+        String fileName = System.currentTimeMillis() + RandomUtils.nextInt(1000000) + "_mergeData.csv";
+        File filedir = new File("/mergeData");
+        if (!filedir.exists()) {
+            filedir.mkdirs();
+        }
+        File file = new File("/mergeData/" + fileName);
+        file.createNewFile();
+
+        CsvWriter csvWriter = new CsvWriter(new FileOutputStream(file), ',', Charset.forName("UTF-8"));
+        String[] headers = {"天猫表订单号", "创建时间", "付款时间", "详情表订单编号", "购买数量", "详情表货号", "成本表货号", "成本表价格", ""};
+        csvWriter.writeRecord(headers);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String[] content = new String[8];
+        for (TmallResult tmallResult : tmallResultList) {
+            content[0] = tmallResult.getTmallordercode();
+            content[1] = tmallResult.getBuildTime() == null ? null : sdf.format(tmallResult.getBuildTime());
+            content[2] = tmallResult.getPayTime() == null ? null : sdf.format(tmallResult.getPayTime());
+            content[3] = tmallResult.getDetailordercode();
+            content[4] = tmallResult.getQuantity() == null ? null : tmallResult.getQuantity().toString();
+            content[5] = tmallResult.getDetailproductcode();
+            content[6] = tmallResult.getProproductcode();
+            content[7] = tmallResult.getCostPrice() == null ? null : tmallResult.getCostPrice().toString();
+            csvWriter.writeRecord(content);
+
+        }
+        csvWriter.close();
+        reInfo = "success";
+
+        return "{\"status\":\"" + reInfo + "\",\"fileName\":\"" + fileName + "\"}";
 
     }
 
