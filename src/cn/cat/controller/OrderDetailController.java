@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 
 /**
  * @author yinxiaochen
@@ -47,7 +48,7 @@ public class OrderDetailController {
                     /*判断文件格式是否正确*/
                     if(prefix.equalsIgnoreCase("csv")) {
                         InputStream is = attach.getInputStream();//获取is对象
-                        CsvReader csvReader =new CsvReader(new BufferedReader(new InputStreamReader(is)));
+                        CsvReader csvReader = new CsvReader(is, Charset.forName("gbk"));
 
                         OrderDetail orderDetail=null;
 

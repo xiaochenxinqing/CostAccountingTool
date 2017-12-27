@@ -53,8 +53,7 @@ public class TmallOrderController {
                     /*判断文件格式是否正确*/
                     if (prefix.equalsIgnoreCase("csv")) {
                         InputStream is = attach.getInputStream();//获取is对象
-                        CsvReader csvReader = new CsvReader(new BufferedReader(new InputStreamReader(is)));
-
+                        CsvReader csvReader = new CsvReader(is, Charset.forName("gbk"));
                         TmallOrder tmallOrder = null;
 
                         String orderCode;//订单编号
