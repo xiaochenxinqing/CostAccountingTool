@@ -1,6 +1,9 @@
 package cn.cat.service.alipay_order;
 
 import cn.cat.pojo.AlipayOrder;
+import cn.cat.pojo.AlipayResult;
+
+import java.util.List;
 
 /**
  * @author yinxiaochen
@@ -10,5 +13,7 @@ public interface AlipayOrderService {
 
     int  addAlipayOrder(AlipayOrder alipayOrder)throws Exception;
     Double countCostForMonth(String chooseMonth) throws Exception;
+
+    List<AlipayResult> showMergeResult(String chooseMonth) throws Exception;
 
 }

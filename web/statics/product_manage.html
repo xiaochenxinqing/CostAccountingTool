@@ -161,13 +161,14 @@
 <script src="js/jquery.min63b9.js?v=2.1.4"></script>
 <script type="text/javascript" src="js/doT.min.js"></script>
 <script src="js/bootstrap.min14ed.js?v=3.3.6"></script>
-<script src="js/plugins/jeditable/jquery.jeditable.js"></script>
 <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
 <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
 <script src="js/content.mine209.js?v=1.0.0"></script>
 <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
 <script>
     $(document).ready(function () {
+
+        //swal("干得漂亮！", "你点击了按钮！","success")
         var oTable;
         getDatas();
 
@@ -221,6 +222,7 @@
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
+                cancelButtonText: "取消",
                 confirmButtonText: "删除",
                 closeOnConfirm: false
             }, function () {
@@ -231,10 +233,22 @@
                     url: getRootPath() + "/product/delProduct.do",
                     success: function (data) {
                         if (data.status === "success") {
-                            alert("删除成功！")
-                            location.reload();
+                            swal({
+                                    title: "提示",
+                                    text: "删除成功！",
+                                    type: "success",
+                                    closeOnConfirm: true
+                                },
+                                function(){
+                                    location.reload();
+                                });
                         } else {
-                            alert("删除失败！未知错误，请检查！");
+                            swal({
+                                    title: "提示",
+                                    text: "删除失败！未知错误，请检查！",
+                                    type: "error",
+                                    closeOnConfirm: true
+                                });
                         }
                     }
                 });
@@ -246,6 +260,9 @@
 
         //返回按键的操作
         $(".back").click(function () {
+           /* $("#dataArea").show();
+            $("#addArea").hide();
+            $("#changeArea").hide();*/
             location.reload();
         });
 
@@ -256,7 +273,12 @@
         $("#addSubmit").click(function () {
             //表单验证（主要是价格不能输入非数字）
             if ($("#addCode").val().trim() === '') {
-                alert("货号不能为空");
+                swal({
+                    title: "提示",
+                    text: "货号不能为空！",
+                    type: "error",
+                    closeOnConfirm: true
+                });
                 return;
             }
             if ($("#addPrice").val().trim() === '') {
@@ -275,7 +297,12 @@
                 url: getRootPath() + "/product/addNewProduct.do",
                 success: function (data) {
                     if (data.status == "success") {
-                        alert("添加成功,您可以继续添加或返回！");
+                        swal({
+                            title: "提示",
+                            text: "添加成功,您可以继续添加或返回！",
+                            type: "success",
+                            closeOnConfirm: true
+                        });
                         $("#addCode").val("");
                         $("#addPrice").val("");
                     } else {
@@ -310,8 +337,15 @@
                 url: getRootPath() + "/product/changeProduct.do",
                 success: function (data) {
                     if (data.status === "success") {
-                        alert("修改成功！");
-                        location.reload();
+                        swal({
+                                title: "提示",
+                                text: "修改成功！",
+                                type: "success",
+                                closeOnConfirm: true
+                            },
+                            function(){
+                                location.reload();
+                            });
                     } else {
                         alert("未知错误，请检查！");
                     }

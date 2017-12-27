@@ -25,13 +25,89 @@
                 #{closeReason}, #{refundAmount}, #{confirmTime}, #{alreadyPayAmount})
     </insert>
     <select id="countCostForMonth" resultType="java.lang.Double">
-        SELECT SUM(temp.`quantity` * temp.costPrice) AS totalCost FROM
-            (SELECT tmall_order.`orderCode`,tmall_order.`payTime`,
-                 order_detail.`productCode`,order_detail.`quantity`,
-                 product.costPrice FROM tmall_order,order_detail,product
-             WHERE tmall_order.`orderCode`= order_detail.`orderCode`
-                   AND order_detail.`productCode`=product.`productCode`) AS temp
-        WHERE temp.payTime LIKE CONCAT(#{chooseMonth},'%')
+        SELECT
+            SUM(
+                    temp1.`quantity` * temp1.costPrice
+            ) AS totalCost
+        FROM
+            (SELECT
+                 temp.*,
+                 `product`.`productCode` AS proproductcode,
+                 `product`.`costPrice`
+             FROM
+                 (SELECT
+                      `tmall_order`.`orderCode` AS tmallordercode,
+                      `tmall_order`.`buildTime`,
+                      `tmall_order`.`payTime`,
+                      `order_detail`.`orderCode` AS detailordercode,
+                      `order_detail`.`quantity`,
+                      `order_detail`.`productCode` AS detailproductcode
+                  FROM
+                      `tmall_order`
+                      LEFT OUTER JOIN `order_detail`
+                          ON `tmall_order`.`orderCode` = `order_detail`.`orderCode`
+                  UNION
+                  SELECT
+                      `tmall_order`.`orderCode` AS tmallordercode,
+                      `tmall_order`.`buildTime`,
+                      `tmall_order`.`payTime`,
+                      `order_detail`.`orderCode` AS detailordercode,
+                      `order_detail`.`quantity`,
+                      `order_detail`.`productCode` AS detailproductcode
+                  FROM
+                      `tmall_order`
+                      RIGHT OUTER JOIN `order_detail`
+                          ON `tmall_order`.`orderCode` = `order_detail`.`orderCode`) AS temp
+                 LEFT OUTER JOIN `product`
+                     ON temp.detailproductcode = `product`.`productCode`) AS temp1
+        WHERE temp1.tmallordercode IS NOT NULL
+              AND buildTime IS NOT NULL
+              AND payTime IS NOT NULL
+              AND detailordercode IS NOT NULL
+              AND quantity IS NOT NULL
+              AND detailproductcode IS NOT NULL
+              AND proproductcode IS NOT NULL
+              AND costprice IS NOT NULL
+              AND payTime LIKE CONCAT(#{chooseMonth},'%');
+
+
+    </select>
+    <select id="showMergeResult" resultType="TmallResult">
+        SELECT
+            *
+        FROM
+            (SELECT
+                 temp.*,
+                 `product`.`productCode` AS proproductcode,
+                 `product`.`costPrice`
+             FROM
+                 (SELECT
+                      `tmall_order`.`orderCode` AS tmallordercode,
+                      `tmall_order`.`buildTime`,
+                      `tmall_order`.`payTime`,
+                      `order_detail`.`orderCode` AS detailordercode,
+                      `order_detail`.`quantity`,
+                      `order_detail`.`productCode` AS detailproductcode
+                  FROM
+                      `tmall_order`
+                      LEFT OUTER JOIN `order_detail`
+                          ON `tmall_order`.`orderCode` = `order_detail`.`orderCode`
+                  UNION
+                  SELECT
+                      `tmall_order`.`orderCode` AS tmallordercode,
+                      `tmall_order`.`buildTime`,
+                      `tmall_order`.`payTime`,
+                      `order_detail`.`orderCode` AS detailordercode,
+                      `order_detail`.`quantity`,
+                      `order_detail`.`productCode` AS detailproductcode
+                  FROM
+                      `tmall_order`
+                      RIGHT OUTER JOIN `order_detail`
+                          ON `tmall_order`.`orderCode` = `order_detail`.`orderCode`) AS temp
+                 LEFT OUTER JOIN `product`
+                     ON temp.detailproductcode = `product`.`productCode`) AS temp1
+        WHERE payTime LIKE CONCAT(#{chooseMonth},'%');
+
     </select>
 
 

@@ -1,39 +1,112 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
- PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
- "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.cat.dao.alipay_order.AlipayOrderMapper">
 
-	<!-- ————————————————————————————————resultMap区————————————————————————————  -->
-	
-	<!--——————————————————————————————————增 ———————————————————————————————————————————————— -->
+    <!-- ————————————————————————————————resultMap区————————————————————————————  -->
 
-	<!--——————————————————————————————————删 ———————————————————————————————————————————————— -->
+    <!--——————————————————————————————————增 ———————————————————————————————————————————————— -->
 
-	<!--——————————————————————————————————改 ———————————————————————————————————————————————— -->
+    <!--——————————————————————————————————删 ———————————————————————————————————————————————— -->
 
-	
-	<!--——————————————————————————————————查 ———————————————————————————————————————————————— -->
+    <!--——————————————————————————————————改 ———————————————————————————————————————————————— -->
 
 
+    <!--——————————————————————————————————查 ———————————————————————————————————————————————— -->
 
-	<!-- ————————————————————————————————cache配置————————————————————————————  -->
-	<cache eviction="FIFO" flushInterval="60000" size="512"  readOnly="true"/>
+
+    <!-- ————————————————————————————————cache配置————————————————————————————  -->
+    <cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
     <insert id="addAlipayOrder">
-		REPLACE   INTO  alipay_order(accountingCode, businessCode, orderCode, goodsName, occuredTime,
-		 revenueAmount, disbursementAmount, accountBalance)
-		VALUES 	(#{accountingCode}, #{businessCode}, #{orderCode}, #{goodsName}, #{occuredTime},
-		#{revenueAmount}, #{disbursementAmount}, #{accountBalance})
-	</insert>
-	<select id="countCostForMonth" resultType="java.lang.Double">
-		SELECT SUM(temp.`quantity` * temp.costPrice) AS totalCost FROM
-			(SELECT alipay_order.`orderCode`,alipay_order.occuredTime,
-				 order_detail.`productCode`,order_detail.`quantity`,
-				 product.costPrice FROM alipay_order,order_detail,product
-			 WHERE alipay_order.`orderCode`= order_detail.`orderCode`
-				   AND order_detail.`productCode`=product.`productCode`) AS temp
-		WHERE temp.occuredTime LIKE CONCAT(#{chooseMonth},'%')
-	</select>
+        REPLACE INTO alipay_order (accountingCode, businessCode, orderCode, goodsName, occuredTime,
+                                   revenueAmount, disbursementAmount, accountBalance)
+        VALUES (#{accountingCode}, #{businessCode}, #{orderCode}, #{goodsName}, #{occuredTime},
+                #{revenueAmount}, #{disbursementAmount}, #{accountBalance})
+    </insert>
+    <select id="countCostForMonth" resultType="java.lang.Double">
+
+        SELECT SUM(
+                       temp1.`quantity` * temp1.costPrice
+               ) AS totalCost
+        FROM
+            (SELECT
+                 temp.*,
+                 `product`.`productCode` AS proproductcode,
+                 `product`.`costPrice`
+             FROM
+                 (SELECT
+                      `alipay_order`.`orderCode`   AS aliordercode,
+                      `alipay_order`.`occuredTime`,
+                      `order_detail`.`orderCode`   AS detailordercode,
+                      `order_detail`.`quantity`,
+                      `order_detail`.`productCode` AS detailproductcode
+                  FROM
+                      `alipay_order`
+                      LEFT OUTER JOIN `order_detail`
+                          ON `alipay_order`.`orderCode` = `order_detail`.`orderCode`
+                  UNION
+                  SELECT
+                      `alipay_order`.`orderCode`   AS aliordercode,
+                      `alipay_order`.`occuredTime`,
+                      `order_detail`.`orderCode`   AS detailordercode,
+                      `order_detail`.`quantity`,
+                      `order_detail`.`productCode` AS detailproductcode
+                  FROM
+                      `alipay_order`
+                      RIGHT
+                      OUTER JOIN `order_detail`
+                          ON `alipay_order`.`orderCode` = `order_detail`.`orderCode`) AS temp
+                 LEFT OUTER JOIN `product`
+                     ON temp.detailproductcode = `product`.`productCode`) AS temp1
+
+        WHERE aliordercode IS NOT NULL
+              AND occuredTime IS NOT NULL
+              AND detailordercode IS NOT NULL
+              AND quantity IS NOT NULL
+              AND detailproductcode IS NOT NULL
+              AND proproductcode IS NOT NULL
+              AND costprice IS NOT NULL
+              AND occuredTime LIKE CONCAT(#{chooseMonth}, '%')
+
+    </select>
+
+    <select id="showMergeResult" resultType="AlipayResult">
+
+        SELECT *
+        FROM
+            (SELECT
+                 temp.*,
+                 `product`.`productCode` AS proproductcode,
+                 `product`.`costPrice`
+             FROM
+                 (SELECT
+                      `alipay_order`.`orderCode`   AS aliordercode,
+                      `alipay_order`.`occuredTime`,
+                      `order_detail`.`orderCode`   AS detailordercode,
+                      `order_detail`.`quantity`,
+                      `order_detail`.`productCode` AS detailproductcode
+                  FROM
+                      `alipay_order`
+                      LEFT OUTER JOIN `order_detail`
+                          ON `alipay_order`.`orderCode` = `order_detail`.`orderCode`
+                  UNION
+                  SELECT
+                      `alipay_order`.`orderCode`   AS aliordercode,
+                      `alipay_order`.`occuredTime`,
+                      `order_detail`.`orderCode`   AS detailordercode,
+                      `order_detail`.`quantity`,
+                      `order_detail`.`productCode` AS detailproductcode
+                  FROM
+                      `alipay_order`
+                      RIGHT
+                      OUTER JOIN `order_detail`
+                          ON `alipay_order`.`orderCode` = `order_detail`.`orderCode`) AS temp
+                 LEFT OUTER JOIN `product`
+                     ON temp.detailproductcode = `product`.`productCode`) AS temp1
+
+        WHERE temp1.occuredTime LIKE CONCAT(#{chooseMonth}, '%')
+    </select>
 
 
 </mapper>
