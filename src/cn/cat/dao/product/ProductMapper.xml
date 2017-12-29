@@ -23,6 +23,89 @@
 
 		SELECT * FROM product ORDER BY id DESC
 	</select>
+	<!--导出所有缺价成本-->
+    <select id="getAllNoPriceList" resultType="cn.cat.pojo.Product">
+		SELECT productCode FROM `order_detail` WHERE	productCode  NOT IN
+														(SELECT productCode FROM product)
+	</select>
+	<!--导出天猫缺价成本（需要选择月份）-->
+	<select id="getTmallNoPriceList" resultType="cn.cat.pojo.Product">
+		SELECT   detailproductcode AS  productCode
+
+		FROM
+			(SELECT
+				 temp.*,
+				 `product`.`productCode` AS proproductcode,
+				 `product`.`costPrice`
+			 FROM
+				 (SELECT
+					  `tmall_order`.`orderCode` AS tmallordercode,
+					  `tmall_order`.`buildTime`,
+					  `tmall_order`.`payTime`,
+					  `order_detail`.`orderCode` AS detailordercode,
+					  `order_detail`.`quantity`,
+					  `order_detail`.`productCode` AS detailproductcode
+				  FROM
+					  `tmall_order`
+					  LEFT OUTER JOIN `order_detail`
+						  ON `tmall_order`.`orderCode` = `order_detail`.`orderCode`
+				  UNION
+				  SELECT
+					  `tmall_order`.`orderCode` AS tmallordercode,
+					  `tmall_order`.`buildTime`,
+					  `tmall_order`.`payTime`,
+					  `order_detail`.`orderCode` AS detailordercode,
+					  `order_detail`.`quantity`,
+					  `order_detail`.`productCode` AS detailproductcode
+				  FROM
+					  `tmall_order`
+					  RIGHT OUTER JOIN `order_detail`
+						  ON `tmall_order`.`orderCode` = `order_detail`.`orderCode`) AS temp
+				 LEFT OUTER JOIN `product`
+					 ON temp.detailproductcode = `product`.`productCode`) AS temp1
+		WHERE payTime LIKE CONCAT(#{chooseMonth},'%')
+			  AND  detailproductcode NOT IN (SELECT productCode FROM product);
+	</select>
+	<!--导出支付宝缺价成本（需要选择月份）-->
+	<select id="getAlipayNoPriceList" resultType="cn.cat.pojo.Product">
+
+		SELECT   detailproductcode AS  productCode
+
+		FROM
+			(SELECT
+				 temp.*,
+				 `product`.`productCode` AS proproductcode,
+				 `product`.`costPrice`
+			 FROM
+				 (SELECT
+					  `alipay_order`.`orderCode` AS aliordercode,
+					  `alipay_order`.`occuredTime`,
+					  `order_detail`.`orderCode` AS detailordercode,
+					  `order_detail`.`quantity`,
+					  `order_detail`.`productCode` AS detailproductcode
+				  FROM
+					  `alipay_order`
+					  LEFT OUTER JOIN `order_detail`
+						  ON `alipay_order`.`orderCode` = `order_detail`.`orderCode`
+				  UNION
+				  SELECT
+					  `alipay_order`.`orderCode` AS aliordercode,
+					  `alipay_order`.`occuredTime`,
+					  `order_detail`.`orderCode` AS detailordercode,
+					  `order_detail`.`quantity`,
+					  `order_detail`.`productCode` AS detailproductcode
+				  FROM
+					  `alipay_order`
+					  RIGHT
+					  OUTER JOIN `order_detail`
+						  ON `alipay_order`.`orderCode` = `order_detail`.`orderCode`) AS temp
+				 LEFT OUTER JOIN `product`
+					 ON temp.detailproductcode = `product`.`productCode`) AS temp1
+		WHERE occuredTime LIKE CONCAT(#{chooseMonth},'%')
+			  AND  detailproductcode NOT IN (SELECT productCode FROM product);
+
+
+	</select>
 
 
 

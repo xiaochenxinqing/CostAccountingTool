@@ -27,28 +27,28 @@
 
 <body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight" style="margin: 100px  auto;width:600px;">
-   <h3 style="color:#46ABA1;"> 请选择您要计算的月份：</h3>
+    <h3 style="color:#46ABA1;"> 请选择您要计算的月份：</h3>
 
 
     <input type="text" id="chooseMonth" Class="Wdate" readonly
-             onClick="WdatePicker({ dateFmt: 'yyyy-MM', isShowToday: false, isShowClear: false });">
+           onClick="WdatePicker({ dateFmt: 'yyyy-MM', isShowToday: false, isShowClear: false });">
     <button type="button" id="button1" class="btn btn-w-m btn-primary btn-sm">开始计算</button>
-    <button type="button" id="button2" class="btn btn-w-m btn-primary btn-sm">导出详情</button>
+    <button type="button" id="button2" class="btn btn-w-m btn-primary btn-sm">导出合并详情</button>
+    <button type="button" id="button3" class="btn btn-w-m btn-primary btn-sm">按月导出缺价成本</button>
 
+    <div class="widget navy-bg no-padding">
+        <div class="p-m">
+            <h1 class="m-xs" id="showResult">&yen; </h1>
 
-            <div class="widget navy-bg no-padding">
-                <div class="p-m">
-                    <h1 class="m-xs" id="showResult">&yen; </h1>
+            <h3 class="font-bold no-margins">
+                天猫订单月成本
+            </h3>
 
-                    <h3 class="font-bold no-margins">
-                        天猫订单月成本
-                    </h3>
-
-                </div>
-                <div class="flot-chart">
-                    <div class="flot-chart-content" id="flot-chart1"></div>
-                </div>
-            </div>
+        </div>
+        <div class="flot-chart">
+            <div class="flot-chart-content" id="flot-chart1"></div>
+        </div>
+    </div>
 
 
 </div>
@@ -84,10 +84,10 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.status == 'success') {
-                        if(data.cost== 'null'){
+                        if (data.cost == 'null') {
                             $("#showResult").html("暂无数据");
-                        }else {
-                        $("#showResult").html("&yen;" + data.cost);
+                        } else {
+                            $("#showResult").html("&yen;" + data.cost);
                         }
                     } else {
                         alert("查询失败！")
@@ -110,7 +110,29 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.status === 'success') {
-                        window.location.href="http://101.132.121.9:8080/mergeData/"+data.fileName;
+                        window.location.href = "http://101.132.121.9:8080/mergeData/" + data.fileName;
+
+                    } else {
+                        alert("导出失败！")
+                    }
+                }
+            });
+
+        });
+
+        $("#button3").click(function () {
+            if ($("#chooseMonth").val() == "") {
+                alert("您尚未选择月份！");
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: getRootPath() + "//product/getNoPriceList.do",
+                data: "type=tmall&chooseMonth=" + $("#chooseMonth").val(),
+                dataType: "json",
+                success: function (data) {
+                    if (data.status === 'success') {
+                        window.location.href = "http://101.132.121.9:8080/mergeData/" + data.fileName;
 
                     } else {
                         alert("导出失败！")

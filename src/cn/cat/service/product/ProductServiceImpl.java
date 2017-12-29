@@ -41,4 +41,19 @@ public class ProductServiceImpl implements  ProductService {
     public int delProductByid(Integer id) throws Exception {
         return productMapper.delProductByid(id);
     }
+
+    @Override
+    public List<Product> getAllNoPriceList() throws Exception {
+        return productMapper.getAllNoPriceList();
+    }
+
+    @Override
+    public List<Product> getTmallNoPriceList(String chooseMonth) throws Exception {
+        return productMapper.getTmallNoPriceList(chooseMonth);
+    }
+
+    @Override
+    public List<Product> getAlipayNoPriceList(String chooseMonth) throws Exception {
+        return productMapper.getAlipayNoPriceList(chooseMonth);
+    }
 }
