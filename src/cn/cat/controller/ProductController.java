@@ -84,8 +84,10 @@ public class ProductController {
 
                             //首行判断
                             cell0 = row.getCell(0);
-                            if (cell0 == null || cell0.toString().trim().equals("")) {
-                                System.out.println("###遇到空行###");
+                            cell1 = row.getCell(1);
+                            if (cell0 == null || cell0.toString().trim().equals("")
+                                    || cell1 == null || cell1.toString().trim().equals("")) {
+                                System.out.println("###遇到空行 或 价格列为空###");
                                 continue;
                             }
                             cell0.setCellType(Cell.CELL_TYPE_STRING);
@@ -94,19 +96,17 @@ public class ProductController {
                             if (prodcutCode.indexOf("#") == 0 || prodcutCode.equals("货号")) {
                                 System.out.println("###注释行或者列名行###");
                                 continue;
-                            } else {
-
-                                cell1 = row.getCell(1);
-                                cell1.setCellType(Cell.CELL_TYPE_STRING);
-                                costPrice = Double.parseDouble(cell1.getStringCellValue().trim());
-                                product = new Product();
-                                product.setProductCode(prodcutCode);
-                                product.setCostPrice(costPrice);
-                                productService.addProduct(product);
                             }
+                            cell1.setCellType(Cell.CELL_TYPE_STRING);
+                            costPrice = Double.parseDouble(cell1.getStringCellValue().trim());
+                            product = new Product();
+                            product.setProductCode(prodcutCode);
+                            product.setCostPrice(costPrice);
+                            productService.addProduct(product);
+
                         }
                         reInfo = "导入数据成功";
-                    } else if(prefix.equalsIgnoreCase("csv")){
+                    } else if (prefix.equalsIgnoreCase("csv")) {
 
                         InputStream is = attach.getInputStream();//获取is对象
                         CsvReader csvReader = new CsvReader(is, Charset.forName("gbk"));
@@ -132,7 +132,7 @@ public class ProductController {
                         }
                         reInfo = "导入数据成功";
 
-                    }else {
+                    } else {
                         reInfo = "部分文件上传文件格式不正确，已弃用，请更改后重新上传";
                     }
 
@@ -152,7 +152,7 @@ public class ProductController {
     @ResponseBody
     public Object getAllProducts() throws Exception {
 
-        System.out.println("长度是"+productService.getAllProducts().size());
+        System.out.println("长度是" + productService.getAllProducts().size());
         return JSON.toJSONString(productService.getAllProducts());
 
 
@@ -161,11 +161,11 @@ public class ProductController {
     @RequestMapping("/addNewProduct.do")
     @ResponseBody
     public Object addNewProduct(Product product) throws Exception {
-       String reInfo ="";
+        String reInfo = "";
         int result = -1;
-        result =productService.addProduct(product);
-        if(result>0){
-            reInfo ="success";
+        result = productService.addProduct(product);
+        if (result > 0) {
+            reInfo = "success";
         }
         return "{\"status\":\"" + reInfo + "\"}";
     }
@@ -173,41 +173,41 @@ public class ProductController {
     @RequestMapping("/changeProduct.do")
     @ResponseBody
     public Object changeProduct(Product product) throws Exception {
-        String reInfo ="";
+        String reInfo = "";
         int result = -1;
-        result =productService.updateProduct(product);
-        if(result>0){
-            reInfo ="success";
-        }
-        return "{\"status\":\"" + reInfo + "\"}";
-    }
-    @RequestMapping("/delProduct.do")
-    @ResponseBody
-    public Object delProduct(@RequestParam("id") Integer id) throws Exception {
-        String reInfo ="";
-        int result = -1;
-        result =productService.delProductByid(id);
-        if(result>0){
-            reInfo ="success";
+        result = productService.updateProduct(product);
+        if (result > 0) {
+            reInfo = "success";
         }
         return "{\"status\":\"" + reInfo + "\"}";
     }
 
+    @RequestMapping("/delProduct.do")
+    @ResponseBody
+    public Object delProduct(@RequestParam("id") Integer id) throws Exception {
+        String reInfo = "";
+        int result = -1;
+        result = productService.delProductByid(id);
+        if (result > 0) {
+            reInfo = "success";
+        }
+        return "{\"status\":\"" + reInfo + "\"}";
+    }
 
 
     @RequestMapping("/getNoPriceList.do")
     @ResponseBody
-    public Object getAllNoPriceList(@RequestParam(value="type",required = false) String type,
-                                    @RequestParam(value="chooseMonth",required = false)String chooseMonth ) throws Exception {
-        List<Product> productList= null;
-        String reInfo="";
-        String fileName="";
-        if(type==null&&chooseMonth==null){//导出全部缺价成本
-            productList= productService.getAllNoPriceList();
-        }else if(type.equals("tmall")){//导出天猫缺价成本 必须选择月份
-            productList= productService.getTmallNoPriceList(chooseMonth);
-        }else if(type.equals("alipay")){//导出支付宝缺价成本 必须选择月份
-            productList= productService.getAlipayNoPriceList(chooseMonth);
+    public Object getAllNoPriceList(@RequestParam(value = "type", required = false) String type,
+                                    @RequestParam(value = "chooseMonth", required = false) String chooseMonth) throws Exception {
+        List<Product> productList = null;
+        String reInfo = "";
+        String fileName = "";
+        if (type == null && chooseMonth == null) {//导出全部缺价成本
+            productList = productService.getAllNoPriceList();
+        } else if (type.equals("tmall")) {//导出天猫缺价成本 必须选择月份
+            productList = productService.getTmallNoPriceList(chooseMonth);
+        } else if (type.equals("alipay")) {//导出支付宝缺价成本 必须选择月份
+            productList = productService.getAlipayNoPriceList(chooseMonth);
         }
 
         fileName = System.currentTimeMillis() + RandomUtils.nextInt(1000000) + "_NopriceProductData.csv";

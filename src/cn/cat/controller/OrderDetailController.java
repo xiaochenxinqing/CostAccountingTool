@@ -46,11 +46,11 @@ public class OrderDetailController {
                     String oldFileName = attach.getOriginalFilename();//获得原文件名
                     String prefix = FilenameUtils.getExtension(oldFileName);//获得原文件名后缀
                     /*判断文件格式是否正确*/
-                    if(prefix.equalsIgnoreCase("csv")) {
+                    if (prefix.equalsIgnoreCase("csv")) {
                         InputStream is = attach.getInputStream();//获取is对象
                         CsvReader csvReader = new CsvReader(is, Charset.forName("gbk"));
 
-                        OrderDetail orderDetail=null;
+                        OrderDetail orderDetail = null;
 
                         String orderCode = "";//订单编号
                         Double price = null;//价格
@@ -60,15 +60,15 @@ public class OrderDetailController {
                         csvReader.setUseComments(true);
                         csvReader.setComment('#');
                         csvReader.readHeaders();
-                        while (csvReader.readRecord()){
+                        while (csvReader.readRecord()) {
                             // 读一整行
                             //System.out.println(csvReader.getRawRecord());
                             // 读这行的某一列
-                            orderCode = csvReader.get("订单编号").trim().split("\"")[1];
-                            price = Double.parseDouble(csvReader.get("价格").trim());
-                            quantity = Integer.parseInt(csvReader.get("购买数量").trim());
-                            productCode = csvReader.get("外部系统编号").trim();
-                            orderStatus = csvReader.get("订单状态").trim();
+                            orderCode = csvReader.get("订单编号") == null ? null : csvReader.get("订单编号").trim().split("\"")[1];
+                            price = csvReader.get("价格") == null ? null : Double.parseDouble(csvReader.get("价格").trim());
+                            quantity = csvReader.get("购买数量") == null ? null : Integer.parseInt(csvReader.get("购买数量").trim());
+                            productCode = csvReader.get("外部系统编号") == null ? null : csvReader.get("外部系统编号").trim();
+                            orderStatus = csvReader.get("订单状态") == null ? null : csvReader.get("订单状态").trim();
                             //开始赋值
                             orderDetail = new OrderDetail();
                             orderDetail.setOrderCode(orderCode);
@@ -79,7 +79,7 @@ public class OrderDetailController {
                             orderDetailService.addOrderDetail(orderDetail);
                         }
                         reInfo = "导入数据成功";
-                    }else{
+                    } else {
                         reInfo = "部分文件上传文件格式不正确，已弃用，请更改后重新上传";
                     }
 

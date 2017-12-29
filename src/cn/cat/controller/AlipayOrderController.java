@@ -75,21 +75,20 @@ public class AlipayOrderController {
                             // System.out.println("这一列是"+csvReader.getRawRecord());
                             // 读这行的某一列
 
-                            accountingCode = csvReader.get("账务流水号").trim();
-                            //System.out.println("账务流水号是"+accountingCode);
-                            businessCode = csvReader.get("业务流水号").trim();
-                            orderCode = csvReader.get("商户订单号").trim();
+                            accountingCode = csvReader.get("账务流水号") == null ? null : csvReader.get("账务流水号").trim();
+                            businessCode = csvReader.get("业务流水号") == null ? null : csvReader.get("业务流水号").trim();
+                            orderCode = csvReader.get("商户订单号") == null ? null : csvReader.get("商户订单号").trim();
 
-                            if (orderCode.indexOf("T200P") == 0) {
+                            if (orderCode == null || orderCode.indexOf("T200P") == 0) {
                                 orderCode = orderCode.substring(5);
                             } else {
                                 continue;
                             }
-                            goodsName = csvReader.get("商品名称") == null ? "" : csvReader.get("商品名称").trim();
+                            goodsName = csvReader.get("商品名称") == null ? null : csvReader.get("商品名称").trim();
                             occuredTime = csvReader.get("发生时间") == null || csvReader.get("发生时间").trim().equals("") ? null : sdf.parse(csvReader.get("发生时间"));
-                            revenueAmount = Double.parseDouble(csvReader.get("收入金额（+元）").trim());
-                            disbursementAmount = Double.parseDouble(csvReader.get("支出金额（-元）").trim());
-                            accountBalance = Double.parseDouble(csvReader.get("账户余额（元）").trim());
+                            revenueAmount = csvReader.get("收入金额（+元）") == null ? null : Double.parseDouble(csvReader.get("收入金额（+元）").trim());
+                            disbursementAmount =csvReader.get("支出金额（-元）")==null?null: Double.parseDouble(csvReader.get("支出金额（-元）").trim());
+                            accountBalance =csvReader.get("账户余额（元）")==null?null: Double.parseDouble(csvReader.get("账户余额（元）").trim());
                             //开始赋值
                             alipayOrder = new AlipayOrder();
                             alipayOrder.setAccountingCode(accountingCode);
@@ -127,16 +126,17 @@ public class AlipayOrderController {
     public String countCost(@RequestParam(value = "chooseMonth", required = false) String chooseMonth) {
 
         Double totalCount = null;
-        String  reInfo = "success";;//用来保存返回信息
+        String reInfo = "success";
+        ;//用来保存返回信息
         try {
             totalCount = alipayOrderService.countCostForMonth(chooseMonth);
         } catch (Exception e) {
             reInfo = "未知错误！";
             e.printStackTrace();
-        }finally {
+        } finally {
 
 
-            return "{\"status\":\"" + reInfo + "\",\"cost\":\""+totalCount+"\"}";
+            return "{\"status\":\"" + reInfo + "\",\"cost\":\"" + totalCount + "\"}";
         }
 
     }
@@ -148,7 +148,7 @@ public class AlipayOrderController {
         List<AlipayResult> alipayResultList = null;
         String reInfo = "";
         alipayResultList = alipayOrderService.showMergeResult(chooseMonth);
-        System.out.println("长度是"+alipayResultList.size());
+        System.out.println("长度是" + alipayResultList.size());
         //开始导入
 
 
