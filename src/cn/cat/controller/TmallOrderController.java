@@ -79,11 +79,11 @@ public class TmallOrderController {
                             actualAmount = csvReader.get("买家实际支付金额") == null ? null : Double.parseDouble(csvReader.get("买家实际支付金额").trim());
                             buildTime = csvReader.get("订单创建时间") == null || csvReader.get("订单创建时间").trim().equals("") ? null : sdf.parse(csvReader.get("订单创建时间"));
                             payTime = csvReader.get("订单付款时间 ") == null || csvReader.get("订单付款时间 ").trim().equals("") ? null : sdf.parse(csvReader.get("订单付款时间 "));
-                            totalCount = csvReader.get("宝贝总数量") == null ? null : Integer.parseInt(csvReader.get("宝贝总数量"));
+                            totalCount = csvReader.get("宝贝总数量") == null || csvReader.get("宝贝总数量").trim().equals("")? null : Integer.parseInt(csvReader.get("宝贝总数量"));
                             closeReason = csvReader.get("订单关闭原因") == null ? null : csvReader.get("订单关闭原因").trim();
-                            refundAmount = csvReader.get("退款金额") == null ? null : Double.parseDouble(csvReader.get("退款金额").trim());
+                            refundAmount = csvReader.get("退款金额") == null || csvReader.get("退款金额").trim().equals("")? null : Double.parseDouble(csvReader.get("退款金额").trim());
                             confirmTime = csvReader.get("确认收货时间") == null || csvReader.get("确认收货时间").trim().equals("") ? null : sdf.parse(csvReader.get("确认收货时间"));
-                            alreadyPayAmount = csvReader.get("打款商家金额") == null ? null : Double.parseDouble(csvReader.get("打款商家金额").trim().split("元")[0]);
+                            alreadyPayAmount = csvReader.get("打款商家金额") == null || csvReader.get("打款商家金额").trim().equals("")? null : Double.parseDouble(csvReader.get("打款商家金额").trim().split("元")[0]);
                             //开始赋值
                             tmallOrder = new TmallOrder();
                             tmallOrder.setOrderCode(orderCode);
