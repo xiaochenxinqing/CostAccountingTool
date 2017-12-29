@@ -65,8 +65,8 @@ public class OrderDetailController {
                             //System.out.println(csvReader.getRawRecord());
                             // 读这行的某一列
                             orderCode = csvReader.get("订单编号") == null ? null : csvReader.get("订单编号").trim().split("\"")[1];
-                            price = csvReader.get("价格") == null ? null : Double.parseDouble(csvReader.get("价格").trim());
-                            quantity = csvReader.get("购买数量") == null ? null : Integer.parseInt(csvReader.get("购买数量").trim());
+                            price = csvReader.get("价格") == null|| csvReader.get("价格").trim().equals("")? null : Double.parseDouble(csvReader.get("价格").trim());
+                            quantity = csvReader.get("购买数量") == null || csvReader.get("购买数量").trim().equals("")? null : Integer.parseInt(csvReader.get("购买数量").trim());
                             productCode = csvReader.get("外部系统编号") == null ? null : csvReader.get("外部系统编号").trim();
                             orderStatus = csvReader.get("订单状态") == null ? null : csvReader.get("订单状态").trim();
                             //开始赋值

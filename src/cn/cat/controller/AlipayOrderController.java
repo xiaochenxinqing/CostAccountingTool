@@ -86,9 +86,9 @@ public class AlipayOrderController {
                             }
                             goodsName = csvReader.get("商品名称") == null ? null : csvReader.get("商品名称").trim();
                             occuredTime = csvReader.get("发生时间") == null || csvReader.get("发生时间").trim().equals("") ? null : sdf.parse(csvReader.get("发生时间"));
-                            revenueAmount = csvReader.get("收入金额（+元）") == null ? null : Double.parseDouble(csvReader.get("收入金额（+元）").trim());
-                            disbursementAmount =csvReader.get("支出金额（-元）")==null?null: Double.parseDouble(csvReader.get("支出金额（-元）").trim());
-                            accountBalance =csvReader.get("账户余额（元）")==null?null: Double.parseDouble(csvReader.get("账户余额（元）").trim());
+                            revenueAmount = csvReader.get("收入金额（+元）") == null || csvReader.get("收入金额（+元）").trim().equals("") ? null : Double.parseDouble(csvReader.get("收入金额（+元）").trim());
+                            disbursementAmount =csvReader.get("支出金额（-元）")==null|| csvReader.get("支出金额（-元）").trim().equals("") ?null: Double.parseDouble(csvReader.get("支出金额（-元）").trim());
+                            accountBalance =csvReader.get("账户余额（元）")==null|| csvReader.get("账户余额（元）").trim().equals("") ?null: Double.parseDouble(csvReader.get("账户余额（元）").trim());
                             //开始赋值
                             alipayOrder = new AlipayOrder();
                             alipayOrder.setAccountingCode(accountingCode);

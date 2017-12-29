@@ -120,9 +120,9 @@ public class ProductController {
                             // 读一整行
                             //System.out.println(csvReader.getRawRecord());
                             // 读这行的某一列
-                            productCode = csvReader.get("货号")==null?null:csvReader.get("货号").trim();
-                            costPrice = csvReader.get("价格") == null ? null : Double.parseDouble(csvReader.get("价格").trim());
-                            if(productCode==null||costPrice==null){
+                            productCode = csvReader.get("货号") == null || csvReader.get("货号").trim().equals("") ? null : csvReader.get("货号").trim();
+                            costPrice = csvReader.get("价格") == null || csvReader.get("价格").trim().equals("") ? null : Double.parseDouble(csvReader.get("价格").trim());
+                            if (productCode == null || costPrice == null) {
                                 continue;
                             }
                             //开始赋值
