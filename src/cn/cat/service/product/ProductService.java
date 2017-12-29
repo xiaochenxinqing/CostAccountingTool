@@ -25,4 +25,8 @@ public interface ProductService {
 
     int delProductByid(Integer id) throws Exception;
 
+    List <Product> getAllNoPriceList()throws  Exception;
+    List <Product> getTmallNoPriceList( String chooseMonth )throws  Exception;
+    List <Product> getAlipayNoPriceList(String chooseMonth )throws  Exception;
+
 }

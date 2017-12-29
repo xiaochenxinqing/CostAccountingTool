@@ -1,10 +1,13 @@
 package cn.cat.controller;
 
 import cn.cat.pojo.Product;
+import cn.cat.pojo.TmallOrder;
 import cn.cat.pojo.User;
 import cn.cat.service.product.ProductService;
 import cn.cat.tools.ExcelUtil;
 import com.alibaba.fastjson.JSON;
+import com.csvreader.CsvReader;
+import com.csvreader.CsvWriter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -28,8 +31,11 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * @author yinxiaochen
@@ -57,8 +63,7 @@ public class ProductController {
                     String oldFileName = attach.getOriginalFilename();//获得原文件名
                     String prefix = FilenameUtils.getExtension(oldFileName);//获得原文件名后缀
                     /*判断文件格式是否正确*/
-                    if (prefix.equalsIgnoreCase("xlsx") || prefix.equalsIgnoreCase("xls")
-                            || prefix.equalsIgnoreCase("csv")) {
+                    if (prefix.equalsIgnoreCase("xlsx") || prefix.equalsIgnoreCase("xls")) {
                         InputStream is = attach.getInputStream();//获取is对象
                         //POIFSFileSystem fs = new POIFSFileSystem(is);
                         XSSFWorkbook wb = new XSSFWorkbook(is);
@@ -101,7 +106,33 @@ public class ProductController {
                             }
                         }
                         reInfo = "导入数据成功";
-                    } else {
+                    } else if(prefix.equalsIgnoreCase("csv")){
+
+                        InputStream is = attach.getInputStream();//获取is对象
+                        CsvReader csvReader = new CsvReader(is, Charset.forName("gbk"));
+                        Product product = null;
+                        String productCode;//订单编号
+                        Double costPrice;//总金额
+                        csvReader.setUseComments(true);
+                        csvReader.setComment('#');
+                        csvReader.readHeaders();
+                        while (csvReader.readRecord()) {
+                            // 读一整行
+                            //System.out.println(csvReader.getRawRecord());
+                            // 读这行的某一列
+                            productCode = csvReader.get("货号").trim();
+                            costPrice = Double.parseDouble(csvReader.get("价格").trim());
+
+                            //开始赋值
+                            product = new Product();
+                            product.setProductCode(productCode);
+                            product.setCostPrice(costPrice);
+                            productService.addProduct(product);
+
+                        }
+                        reInfo = "导入数据成功";
+
+                    }else {
                         reInfo = "部分文件上传文件格式不正确，已弃用，请更改后重新上传";
                     }
 
@@ -162,5 +193,46 @@ public class ProductController {
         return "{\"status\":\"" + reInfo + "\"}";
     }
 
+
+
+    @RequestMapping("/getNoPriceList.do")
+    @ResponseBody
+    public Object getAllNoPriceList(@RequestParam(value="type",required = false) String type,
+                                    @RequestParam(value="chooseMonth",required = false)String chooseMonth ) throws Exception {
+        List<Product> productList= null;
+        String reInfo="";
+        String fileName="";
+        if(type==null&&chooseMonth==null){//导出全部缺价成本
+            productList= productService.getAllNoPriceList();
+        }else if(type.equals("tmall")){//导出天猫缺价成本 必须选择月份
+            productList= productService.getTmallNoPriceList(chooseMonth);
+        }else if(type.equals("alipay")){//导出支付宝缺价成本 必须选择月份
+            productList= productService.getAlipayNoPriceList(chooseMonth);
+        }
+
+        fileName = System.currentTimeMillis() + RandomUtils.nextInt(1000000) + "_NopriceProductData.csv";
+        File filedir = new File("D:\\mergeData");
+        if (!filedir.exists()) {
+            filedir.mkdirs();
+        }
+        File file = new File("D:\\mergeData\\" + fileName);
+        file.createNewFile();
+
+        CsvWriter csvWriter = new CsvWriter(new FileOutputStream(file), ',', Charset.forName("UTF-8"));
+        String[] headers = {"货号", "价格"};
+        csvWriter.writeRecord(headers);
+        String[] content = new String[2];
+
+        for (Product product : productList) {
+            content[0] = product.getProductCode();
+            content[1] = null;
+            csvWriter.writeRecord(content);
+        }
+        csvWriter.close();
+
+        reInfo = "success";
+
+        return "{\"status\":\"" + reInfo + "\",\"fileName\":\"" + fileName + "\"}";
+    }
 
 }

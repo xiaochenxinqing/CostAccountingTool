@@ -68,41 +68,38 @@ Time: 14:11
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/product_manage.html">商品成本管理</a>
+                            <a class="J_menuItem"
+                               href="${pageContext.request.contextPath }/statics/product_manage.html">商品成本管理</a>
                         </li>
-                      <%--  <li>
-                            <a  href="###" id="reset">系统数据重置</a>
-                        </li>--%>
-                        <%--<li>
-                            <a class="J_menuItem" href="">天猫订单管理</a>
-                        </li>
-                        <li>
-                            <a class="J_menuItem" href="">支付宝订单管理</a>
-                        </li>
-                        <li>
-                            <a class="J_menuItem" href="">订单子条目管理</a>
-                        </li>
---%>
+                        <%--  <li>
+                              <a  href="###" id="reset">系统数据重置</a>
+                          </li>--%>
+
+
                     </ul>
 
                 </li>
                 <li>
 
 
-                    <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">EXCEL文件上传</span><span
+                    <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">表格文件上传</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/product_webuploader.html">价格库上传</a>
+                            <a class="J_menuItem"
+                               href="${pageContext.request.contextPath }/statics/product_webuploader.html">商品成本上传</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/tmall_order_webuploader.html">天猫订单上传</a>
+                            <a class="J_menuItem"
+                               href="${pageContext.request.contextPath }/statics/tmall_order_webuploader.html">天猫订单上传</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/alipay_order_webuploader.html">支付宝订单上传</a>
+                            <a class="J_menuItem"
+                               href="${pageContext.request.contextPath }/statics/alipay_order_webuploader.html">支付宝订单上传</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/order_detail_webuploader.html">订单明细上传</a>
+                            <a class="J_menuItem"
+                               href="${pageContext.request.contextPath }/statics/order_detail_webuploader.html">订单明细上传</a>
                         </li>
 
                     </ul>
@@ -116,10 +113,12 @@ Time: 14:11
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/tmall_order_account.html">天猫订单成本计算</a>
+                            <a class="J_menuItem"
+                               href="${pageContext.request.contextPath }/statics/tmall_order_account.html">天猫订单成本计算</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="${pageContext.request.contextPath }/statics/alipay_order_account.html">支付宝订单成本计算</a>
+                            <a class="J_menuItem"
+                               href="${pageContext.request.contextPath }/statics/alipay_order_account.html">支付宝订单成本计算</a>
                         </li>
 
 
@@ -152,7 +151,8 @@ Time: 14:11
             </button>
             <nav class="page-tabs J_menuTabs">
                 <div class="page-tabs-content">
-                    <a href="javascript:;" class="active J_menuTab" data-id="${pageContext.request.contextPath }/statics/introduction.html">关于系统</a>
+                    <a href="javascript:;" class="active J_menuTab"
+                       data-id="${pageContext.request.contextPath }/statics/introduction.html">关于系统</a>
                 </div>
             </nav>
             <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>
@@ -171,7 +171,8 @@ Time: 14:11
                     </li>
                 </ul>
             </div>
-            <a href="${pageContext.request.contextPath }/user/loginout.do" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+            <a href="${pageContext.request.contextPath }/user/loginout.do" class="roll-nav roll-right J_tabExit"><i
+                    class="fa fa fa-sign-out"></i> 退出</a>
         </div>
         <div class="row J_mainContent" id="content-main">
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%"
@@ -293,24 +294,25 @@ Time: 14:11
 <script type="text/javascript">
     $(function () {
         $("#reset").click(function () {
-            if(confirm("此功能将会清空全部数据，您确定要继续吗？")){
-                 if(confirm("警告：此操作是不可逆的，数据将全部丢失，您确定要重置吗？")){
+            if (confirm("此功能将会清空全部数据，您确定要继续吗？")) {
+                if (confirm("警告：此操作是不可逆的，数据将全部丢失，您确定要重置吗？")) {
 
-                     /*$.ajax({
-                         type: "GET",
-                         url: getRootPath() + "/user/resetData.do",
-                         success: function (data) {
-                             if(data.status==="success"){
-                                 alert("清空数据库成功！")
-                             }else {
-                                 alert("重置数据库失败！")
-                             }
-                         }
-                     });*/
+                    /*$.ajax({
+                        type: "GET",
+                        url: getRootPath() + "/user/resetData.do",
+                        success: function (data) {
+                            if(data.status==="success"){
+                                alert("清空数据库成功！")
+                            }else {
+                                alert("重置数据库失败！")
+                            }
+                        }
+                    });*/
 
-                 }
+                }
             }
         });
+
         function getRootPath() {
             //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
             var curWwwPath = window.document.location.href;

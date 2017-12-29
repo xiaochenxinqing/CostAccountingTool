@@ -473,7 +473,7 @@
 
                 <div class="ibox-content">
                     <div class="alert alert-warning">
-                        注意事项：为保证数据准确性，请确保上传文件格式为Excel文件格式<span style="color: red">（xls或xlsx）</span>
+                        注意事项：<span style="color: red">支持csv，xls或xlsx格式（上传时请注意价格的格式必须为小数点后不超过两位的数字）</span>
                     </div>
                 </div>
             </div>
@@ -486,7 +486,7 @@
                 <header>
                     <p>
                         <i class="fa fa-cloud-upload" aria-hidden="true"></i>
-                        <span class="up">价格库(成本)</span>
+                        <span class="up">商品成本</span>
                         <span class="load">上传</span>
                     </p>
                 </header>
@@ -518,7 +518,8 @@
 <script type="text/javascript">
 
     jQuery(function () {
-        jQuery("#clear").click(function () {
+        jQuery("#clear").click(clearFile);
+        function clearFile() {
             var file = document.getElementById("upinput");
             // for IE, Opera, Safari, Chrome
             if (file.outerHTML) {
@@ -526,7 +527,7 @@
             } else { // FF(包括3.5)
                 file.value = "";
             }
-        });
+        }
         jQuery("#submitbutton").click(function () {
             if (jQuery("#upform input").val() == '' || jQuery("#upform input").val() == null) {
                 swal({
@@ -563,7 +564,7 @@
                         },
                         function(){
                             if (data.status === "导入数据成功") {
-                                location.reload();
+                                clearFile();
                             }
                         });
 

@@ -44,8 +44,11 @@
                         </a>
                     </div>
                 </div>
-                <div style="position: absolute;top:10px;left: 45%;z-index: 6">
-                    <a id="addNewRow" href="javascript:void(0);" class="btn btn-primary ">新增商品条目</a>
+                <div style="position: absolute;top:10px;left: 35%;z-index: 6">
+                    <a id="addNewRow" href="javascript:void(0);" class="btn btn-primary ">新增单个成本</a>
+                </div>
+                <div style="position: absolute;top:10px;left: 50%;z-index: 6">
+                    <a id="getAllNoPriceList" href="javascript:void(0);" class="btn btn-primary ">导出所有缺价成本</a>
                 </div>
 
                 <!--datatable区-->
@@ -53,7 +56,7 @@
                     <table class="table table-striped table-bordered table-hover " id="editable">
                         <thead>
                         <tr>
-                            <th>系统编号</th>
+                            <th>系统内部编号</th>
                             <th>货号</th>
                             <th>价格（元）</th>
                             <th>操作</th>
@@ -65,7 +68,7 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>系统编号</th>
+                            <th>系统内部编号</th>
                             <th>货号</th>
                             <th>价格</th>
                             <th>操作</th>
@@ -352,6 +355,25 @@
                 }
             });
 
+        });
+        $("#getAllNoPriceList").click(function () { //导出所有缺价成本
+
+            $.ajax({
+                type: "POST",
+                url: getRootPath() + "/product/getNoPriceList.do",
+                /*data: "chooseMonth=" + $("#chooseMonth").val(),*/
+                dataType: "json",
+                success: function (data) {
+                    if (data.status === 'success') {
+                        window.location.href="http://localhost:8080/mergeData/"+data.fileName;
+
+                    } else {
+                        alert("导出失败！");
+                    }
+                }
+            });
+
+            
         });
 
 

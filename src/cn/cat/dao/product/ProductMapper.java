@@ -19,6 +19,10 @@ public interface ProductMapper {
     int updateProduct(Product product)throws  Exception;
     int delProductByid(@Param("id") Integer id)throws  Exception;
 
+    List <Product> getAllNoPriceList()throws  Exception;
+    List <Product> getTmallNoPriceList(@Param("chooseMonth") String chooseMonth )throws  Exception;
+    List <Product> getAlipayNoPriceList(@Param("chooseMonth") String chooseMonth )throws  Exception;
+
 
 
 }

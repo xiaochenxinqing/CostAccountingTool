@@ -520,7 +520,8 @@
 
     jQuery(function () {
 
-        jQuery("#clear").click(function () {
+        jQuery("#clear").click(clearFile);
+        function clearFile() {
             var file = document.getElementById("upinput");
             // for IE, Opera, Safari, Chrome
             if (file.outerHTML) {
@@ -528,7 +529,7 @@
             } else { // FF(包括3.5)
                 file.value = "";
             }
-        });
+        }
 
         jQuery("#submitbutton").click(function () {
             if (jQuery("#upform input").val() == '' || jQuery("#upform input").val() == null) {
@@ -566,7 +567,7 @@
                         },
                         function(){
                             if (data.status === "导入数据成功") {
-                                location.reload();
+                                clearFile();
                             }
                         });
                 },
