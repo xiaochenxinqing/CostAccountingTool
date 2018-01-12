@@ -156,7 +156,7 @@ public class TmallOrderController {
         file.createNewFile();
 
         CsvWriter csvWriter = new CsvWriter(new FileOutputStream(file), ',', Charset.forName("UTF-8"));
-        String[] headers = {"天猫表订单号", "创建时间", "付款时间", "详情表订单编号", "购买数量", "详情表货号", "成本表货号", "成本表价格", ""};
+        String[] headers = {"天猫表订单号", "创建时间", "付款时间", "详情表订单编号", "购买数量", "详情表外部属性", "成本表货号", "成本表价格", ""};
         csvWriter.writeRecord(headers);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

@@ -58,7 +58,7 @@
                       OUTER JOIN `order_detail`
                           ON `alipay_order`.`orderCode` = `order_detail`.`orderCode`) AS temp
                  LEFT OUTER JOIN `product`
-                     ON temp.detailproductcode = `product`.`productCode`) AS temp1
+                     ON temp.detailproductcode LIKE CONCAT(`product`.`productCode`,'%') ) AS temp1
 
         WHERE aliordercode IS NOT NULL
               AND occuredTime IS NOT NULL
@@ -103,7 +103,7 @@
                       OUTER JOIN `order_detail`
                           ON `alipay_order`.`orderCode` = `order_detail`.`orderCode`) AS temp
                  LEFT OUTER JOIN `product`
-                     ON temp.detailproductcode = `product`.`productCode`) AS temp1
+                     ON temp.detailproductcode LIKE CONCAT(`product`.`productCode`,'%') ) AS temp1
 
         WHERE temp1.occuredTime LIKE CONCAT(#{chooseMonth}, '%')
     </select>
