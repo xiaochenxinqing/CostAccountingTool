@@ -161,7 +161,7 @@ public class AlipayOrderController {
         file.createNewFile();
 
         CsvWriter csvWriter = new CsvWriter(new FileOutputStream(file), ',', Charset.forName("UTF-8"));
-        String[] headers = {"支付宝订单表订单号", "发生时间", "详情表订单编号", "购买数量", "详情表货号", "成本表货号", "成本表价格", ""};
+        String[] headers = {"支付宝订单表订单号", "发生时间", "详情表订单编号", "购买数量", "详情表外部属性", "成本表货号", "成本表价格", ""};
         csvWriter.writeRecord(headers);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

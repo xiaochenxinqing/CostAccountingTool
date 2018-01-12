@@ -59,7 +59,7 @@
                       RIGHT OUTER JOIN `order_detail`
                           ON `tmall_order`.`orderCode` = `order_detail`.`orderCode`) AS temp
                  LEFT OUTER JOIN `product`
-                     ON temp.detailproductcode = `product`.`productCode`) AS temp1
+                     ON temp.detailproductcode LIKE CONCAT(`product`.`productCode`,'%') ) AS temp1
         WHERE temp1.tmallordercode IS NOT NULL
               AND buildTime IS NOT NULL
               AND payTime IS NOT NULL
@@ -105,7 +105,7 @@
                       RIGHT OUTER JOIN `order_detail`
                           ON `tmall_order`.`orderCode` = `order_detail`.`orderCode`) AS temp
                  LEFT OUTER JOIN `product`
-                     ON temp.detailproductcode = `product`.`productCode`) AS temp1
+                     ON temp.detailproductcode LIKE CONCAT(`product`.`productCode`,'%') ) AS temp1
         WHERE payTime LIKE CONCAT(#{chooseMonth},'%');
 
     </select>
