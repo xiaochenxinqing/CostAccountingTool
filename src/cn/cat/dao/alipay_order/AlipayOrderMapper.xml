@@ -38,6 +38,7 @@
                  (SELECT
                       `alipay_order`.`orderCode`   AS aliordercode,
                       `alipay_order`.`occuredTime`,
+                      `order_detail`.orderStatus AS detailorderstatus,
                       `order_detail`.`orderCode`   AS detailordercode,
                       `order_detail`.`quantity`,
                       `order_detail`.`productCode` AS detailproductcode
@@ -49,6 +50,7 @@
                   SELECT
                       `alipay_order`.`orderCode`   AS aliordercode,
                       `alipay_order`.`occuredTime`,
+                    `order_detail`.orderStatus AS detailorderstatus,
                       `order_detail`.`orderCode`   AS detailordercode,
                       `order_detail`.`quantity`,
                       `order_detail`.`productCode` AS detailproductcode
@@ -61,6 +63,7 @@
                      ON temp.detailproductcode LIKE CONCAT(`product`.`productCode`,'%') ) AS temp1
 
         WHERE aliordercode IS NOT NULL
+              AND detailorderstatus  != '交易关闭'
               AND occuredTime IS NOT NULL
               AND detailordercode IS NOT NULL
               AND quantity IS NOT NULL
@@ -68,6 +71,9 @@
               AND proproductcode IS NOT NULL
               AND costprice IS NOT NULL
               AND occuredTime LIKE CONCAT(#{chooseMonth}, '%')
+        <if test="orderCode != null and orderCode != ''">
+            AND proproductcode = #{orderCode}
+        </if>
 
     </select>
 

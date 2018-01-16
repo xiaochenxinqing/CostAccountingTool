@@ -23,8 +23,8 @@ public class AlipayOrderServiceImpl implements AlipayOrderService{
     }
 
     @Override
-    public Double countCostForMonth(String chooseMonth) throws Exception {
-        return alipayOrderMapper.countCostForMonth(chooseMonth);
+    public Double countCostForMonth(String chooseMonth, String orderCode) throws Exception {
+        return alipayOrderMapper.countCostForMonth(chooseMonth,orderCode);
     }
 
     @Override

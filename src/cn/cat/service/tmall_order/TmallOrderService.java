@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface TmallOrderService {
     int  addTmallOrder (TmallOrder tmallOrder)throws Exception;
-    Double countCostForMonth(String chooseMonth) throws Exception;
+    Double countCostForMonth(String chooseMonth,String orderCode) throws Exception;
     List<TmallResult> showMergeResult( String chooseMonth) throws Exception;
 }

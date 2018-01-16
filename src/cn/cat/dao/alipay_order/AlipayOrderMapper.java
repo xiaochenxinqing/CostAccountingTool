@@ -15,7 +15,7 @@ import java.util.List;
 public interface AlipayOrderMapper {
 
    int  addAlipayOrder(AlipayOrder alipayOrder)throws Exception;
-   Double countCostForMonth(@Param("chooseMonth") String chooseMonth) throws Exception;
+   Double countCostForMonth(@Param("chooseMonth") String chooseMonth,@Param("orderCode") String orderCode) throws Exception;
   List<AlipayResult> showMergeResult(@Param("chooseMonth") String chooseMonth) throws Exception;
 
 
