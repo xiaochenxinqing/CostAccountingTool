@@ -67,7 +67,7 @@ public class OrderDetailController {
                             if (csvReader.get("订单编号") == null) {
                                 orderCode = null;
                             } else {
-                                if (csvReader.get("订单编号").indexOf("=") > 0) {
+                                if (csvReader.get("订单编号").contains("=")) {
                                     orderCode = csvReader.get("订单编号").trim().split("\"")[1];
                                 } else {
                                     orderCode = csvReader.get("订单编号").trim();

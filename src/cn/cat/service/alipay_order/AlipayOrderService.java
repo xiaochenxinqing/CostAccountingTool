@@ -12,7 +12,7 @@ import java.util.List;
 public interface AlipayOrderService {
 
     int  addAlipayOrder(AlipayOrder alipayOrder)throws Exception;
-    Double countCostForMonth(String chooseMonth) throws Exception;
+    Double countCostForMonth(String chooseMonth, String orderCode) throws Exception;
 
     List<AlipayResult> showMergeResult(String chooseMonth) throws Exception;
 

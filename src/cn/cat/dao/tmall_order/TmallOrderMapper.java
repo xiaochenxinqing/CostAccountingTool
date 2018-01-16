@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface TmallOrderMapper {
     int addTmallOrder(TmallOrder tmallOrder)throws  Exception;
-    Double countCostForMonth(@Param("chooseMonth") String chooseMonth) throws Exception;
+    Double countCostForMonth(@Param("chooseMonth") String chooseMonth ,@Param("orderCode") String orderCode) throws Exception;
 
     List<TmallResult> showMergeResult(@Param("chooseMonth") String chooseMonth) throws Exception;
 

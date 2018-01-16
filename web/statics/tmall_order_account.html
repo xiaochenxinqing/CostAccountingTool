@@ -27,21 +27,22 @@
 
 <body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight" style="margin: 100px  auto;width:600px;">
-    <h3 style="color:#46ABA1;"> 请选择您要计算的月份：</h3>
-
-
+    <h3 style="color:#46ABA1;display: inline-block"> 请选择您要计算的月份(必选)：</h3>
     <input type="text" id="chooseMonth" Class="Wdate" readonly
            onClick="WdatePicker({ dateFmt: 'yyyy-MM', isShowToday: false, isShowClear: false });">
+    <h3 style="color:#46ABA1;display: inline-block"> 填写您要计算成本的货号（不填代表计算所有货号）：</h3>
+    <input type="text" id="orderCode" >
+
     <button type="button" id="button1" class="btn btn-w-m btn-primary btn-sm">开始计算</button>
     <button type="button" id="button2" class="btn btn-w-m btn-primary btn-sm">导出合并详情</button>
-    <button type="button" id="button3" class="btn btn-w-m btn-primary btn-sm">按月导出缺价成本</button>
+    <button type="button" id="button3" class="btn btn-w-m btn-primary btn-sm"style="display: none">按月导出缺价成本</button>
 
     <div class="widget navy-bg no-padding">
         <div class="p-m">
             <h1 class="m-xs" id="showResult">&yen; </h1>
 
             <h3 class="font-bold no-margins">
-                天猫订单月成本
+                天猫订单月成本（不包含已关闭订单）
             </h3>
 
         </div>
@@ -80,7 +81,7 @@
             $.ajax({
                 type: "POST",
                 url: getRootPath() + "/tmallOrder/countCostForTmallOrder.do",
-                data: "chooseMonth=" + $("#chooseMonth").val(),
+                data: "chooseMonth=" + $("#chooseMonth").val()+"&orderCode="+$("#orderCode").val(),
                 dataType: "json",
                 success: function (data) {
                     if (data.status == 'success') {

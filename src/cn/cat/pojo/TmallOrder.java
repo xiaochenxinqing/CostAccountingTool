@@ -10,10 +10,27 @@ public class TmallOrder {
   private Date buildTime;//订单创建时间
   private Date payTime;//订单付款时间
   private Integer totalCount;//宝贝总数量
-  private String closeReason;//订单关闭原因
+  private String orderStatus;//订单状态
+  private String customerAddress;//收货地址
   private Double refundAmount;//退款金额
   private Date confirmTime;//确认收货时间
   private Double alreadyPayAmount;//已打款商家金额
+
+  public String getOrderStatus() {
+    return orderStatus;
+  }
+
+  public void setOrderStatus(String orderStatus) {
+    this.orderStatus = orderStatus;
+  }
+
+  public String getCustomerAddress() {
+    return customerAddress;
+  }
+
+  public void setCustomerAddress(String customerAddress) {
+    this.customerAddress = customerAddress;
+  }
 
   public Integer getId() {
     return id;
@@ -71,13 +88,6 @@ public class TmallOrder {
     this.totalCount = totalCount;
   }
 
-  public String getCloseReason() {
-    return closeReason;
-  }
-
-  public void setCloseReason(String closeReason) {
-    this.closeReason = closeReason;
-  }
 
   public Double getRefundAmount() {
     return refundAmount;
