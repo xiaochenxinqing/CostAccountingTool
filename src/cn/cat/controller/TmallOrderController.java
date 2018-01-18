@@ -75,7 +75,15 @@ public class TmallOrderController {
                             // 读一整行
                             //System.out.println(csvReader.getRawRecord());
                             // 读这行的某一列
-                            orderCode = csvReader.get("订单编号").trim() == null ? null : csvReader.get("订单编号").trim().split("\"")[1];
+                            if (csvReader.get("订单编号") == null) {
+                                orderCode = null;
+                            } else {
+                                if (csvReader.get("订单编号").contains("=")) {
+                                    orderCode = csvReader.get("订单编号").trim().split("\"")[1];
+                                } else {
+                                    orderCode = csvReader.get("订单编号").trim();
+                                }
+                            }
                             totalAmount = csvReader.get("总金额") == null ? null : Double.parseDouble(csvReader.get("总金额").trim());
                             actualAmount = csvReader.get("买家实际支付金额") == null ? null : Double.parseDouble(csvReader.get("买家实际支付金额").trim());
                             buildTime = csvReader.get("订单创建时间") == null || csvReader.get("订单创建时间").trim().equals("") ? null : sdf.parse(csvReader.get("订单创建时间"));
